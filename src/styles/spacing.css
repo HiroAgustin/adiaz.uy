@@ -1,0 +1,26 @@
+/* Box sizing rules */
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
+/* Remove default margin */
+:where(body, h1, h2, h3, h4, p, figure, blockquote, dl, dd) {
+	margin: 0;
+}
+
+/* Make images easier to work with */
+:where(img, picture) {
+	max-width: 100%;
+	display: block;
+}
+
+:where(main) {
+	min-height: 100dvh;
+	padding: 2em;
+}
+
+:where(ul, ol) {
+	padding-inline-start: 1em;
+}

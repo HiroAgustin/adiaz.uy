@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "@layouts/Base.astro";
+import FormattedDate from "@components/Time.astro";
+
+const posts = (await getCollection("blog")).sort((a, b) =>
+	a.data.pubDate.valueOf() < b.data.pubDate.valueOf() ? 1 : -1
+);
+---
+
+<Layout>
+	<ul>
+		{
+			posts.map((post) => (
+				<li>
+					<a href={`/blog/${post.slug}/`}>{post.data.title}</a> –
+					<small>
+						<FormattedDate date={post.data.pubDate} />
+					</small>
+				</li>
+			))
+		}
+	</ul>
+</Layout>

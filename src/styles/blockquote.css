@@ -1,0 +1,18 @@
+:where(blockquote) {
+	border-inline-start: 0.2em solid currentColor;
+	font-size: var(--size-step-1);
+	font-style: italic;
+	padding-inline-start: 1em;
+}
+
+:where(blockquote)::before {
+	content: open-quote;
+}
+
+:where(blockquote)::after {
+	content: close-quote;
+}
+
+:where(blockquote > p) {
+	display: inline;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "adiaz.uy",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^0.19.7",
+    "@astrojs/rss": "^2.4.3",
+    "@astrojs/sitemap": "^2.0.1",
+    "@astrojs/tailwind": "^4.0.0",
+    "@fontsource-variable/roboto-serif": "^5.0.8",
+    "@fontsource/atkinson-hyperlegible": "^5.0.7",
+    "astro": "^2.10.1",
+    "astro-robots-txt": "^0.5.0",
+    "astro-webmanifest": "^0.6.0",
+    "tailwindcss": "^3.3.3"
+  }
+}

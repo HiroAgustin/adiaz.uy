@@ -1,0 +1,51 @@
+:root {
+	--size-step-0: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
+	--size-step-1: clamp(1.25rem, calc(1.16rem + 0.43vw), 1.5rem);
+	--size-step-2: clamp(1.56rem, calc(1.41rem + 0.76vw), 2rem);
+	--size-step-3: clamp(1.95rem, calc(1.71rem + 1.24vw), 2.66rem);
+	--size-step-4: clamp(2.44rem, calc(2.05rem + 1.93vw), 3.55rem);
+}
+
+:where(html) {
+	line-height: 1.5;
+	tab-size: 2;
+	text-rendering: optimizeSpeed;
+	text-size-adjust: 100%;
+}
+
+:where(body) {
+	font-family: "Atkinson Hyperlegible", sans-serif;
+	font-size: var(--size-step-0);
+}
+
+:where(h1, h2, h3, h4) {
+	font-family: "Roboto Serif Variable", sans-serif;
+	font-weight: 800;
+	line-height: 1.1;
+	text-wrap: balance;
+}
+
+:where(h1) {
+	font-size: var(--size-step-4);
+}
+
+:where(h2) {
+	font-size: var(--size-step-3);
+}
+
+:where(h3) {
+	font-size: var(--size-step-2);
+}
+
+:where(h4) {
+	font-size: var(--size-step-1);
+}
+
+:where(a) {
+	text-underline-offset: 0.2ex;
+}
+
+/* Inherit fonts for inputs and buttons */
+:where(input, button, textarea, select) {
+	font: inherit;
+}
