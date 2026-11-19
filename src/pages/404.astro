@@ -1,13 +1,19 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import content from "../styles/Content.module.css";
+import metadata from "../styles/Metadata.module.css";
+import action from "../styles/Action.module.css";
 ---
 
 <SiteLayout title="404: Page not found">
-	<article>
-		<h1>404: Page not found</h1>
-		<p>
-			Sorry, we've misplaced that URL or it's pointing to something that doesn't exist.{" "}
-			<a href="/">Head back home</a> to try finding it again.
-		</p>
-	</article>
+	<section class:list={[content.page, "mx-auto"]}>
+		<header class={content.heading}>
+			<p class:list={[metadata.label, metadata.eyebrow]}>404</p>
+			<h1>Page not found.</h1>
+			<p class={content.intro}>This page may have moved or the address might be wrong.</p>
+		</header>
+		<a class={action.action} href="/">
+			Back home
+		</a>
+	</section>
 </SiteLayout>

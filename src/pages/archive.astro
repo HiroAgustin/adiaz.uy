@@ -1,25 +1,25 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { formatDate, getPosts } from "../lib/posts";
+import PostList from "../components/PostList.astro";
+import { getPosts } from "../lib/posts";
+import content from "../styles/Content.module.css";
+import metadata from "../styles/Metadata.module.css";
 
 const posts = await getPosts();
 ---
 
 <SiteLayout
 	type="CollectionPage"
-	title="Archive"
+	title="Writing"
 	description="Browse all articles by Agustín Díaz on web development, frontend engineering, CSS, JavaScript, and design."
 	items={posts.map((post) => ({ name: post.data.title, url: `/${post.id}/` }))}
 >
-	<article>
-		<h1>Archive</h1>
-		<ul role="list">
-			{posts.map((post) => (
-				<li>
-					<a href={`/${post.id}/`}>{post.data.title}</a>{" "}
-					<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-				</li>
-			))}
-		</ul>
-	</article>
+	<section class:list={[content.page, "mx-auto"]}>
+		<header class={content.heading}>
+			<p class:list={[metadata.label, metadata.eyebrow]}>The archive</p>
+			<h1 data-transition="writing-title">Writing</h1>
+			<p class={content.intro}>Notes on CSS, JavaScript, and building for the web.</p>
+		</header>
+		<PostList posts={posts} />
+	</section>
 </SiteLayout>

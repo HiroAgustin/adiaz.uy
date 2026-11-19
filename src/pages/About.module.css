@@ -1,3 +1,24 @@
-.Avatar {
-	corner-shape: squircle;
+.heading {
+	--heading-gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+	align-items: start;
+}
+
+.portrait {
+	--portrait-radius: 20%;
+	inline-size: min(100%, 14rem);
+}
+
+@media (min-width: 42rem) {
+	.heading {
+		grid-template-columns: minmax(0, 1fr) 14rem;
+	}
+
+	.portrait {
+		align-self: end;
+		margin-block-start: 0.75rem;
+	}
+
+	.heading h1 {
+		font-size: clamp(2.25rem, 1rem + 4.25vw, 4rem);
+	}
 }

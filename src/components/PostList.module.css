@@ -1,0 +1,76 @@
+.list {
+	--post-link-inset: clamp(0.625rem, 2vw, 0.875rem);
+	margin-inline: calc(-1 * var(--post-link-inset));
+}
+
+.list:not(.plain)::before,
+.list:not(.plain) > li::after {
+	content: "";
+	display: block;
+	margin-inline: var(--post-link-inset);
+	border-block-start: 1px solid var(--border);
+}
+
+.link {
+	display: grid;
+	align-items: center;
+	color: var(--heading);
+	text-decoration: none;
+	grid-template-columns: minmax(0, 1fr) auto;
+	padding-block: 0.875rem;
+	padding-inline: var(--post-link-inset);
+}
+
+.plain .link {
+	padding-block: 0.625rem;
+}
+
+.summary {
+	grid-column: 1 / -1;
+	color: var(--text);
+	font-size: 0.9375rem;
+	line-height: 1.45;
+	text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.list > li {
+		view-transition-name: var(--post-transition, none);
+		view-transition-class: shared-content;
+		transition:
+			opacity var(--post-entry-duration) var(--ease-settle),
+			translate var(--post-entry-duration) var(--ease-settle);
+		transition-delay: min(var(--post-entry-delay-cap), var(--post-index) * var(--post-entry-step));
+	}
+
+	@supports (transition-delay: calc(sibling-index() * 1ms)) {
+		.list > li {
+			transition-delay: min(
+				var(--post-entry-delay-cap),
+				(sibling-index() - 1) * var(--post-entry-step)
+			);
+		}
+	}
+
+	@starting-style {
+		.list > li {
+			opacity: 0;
+			translate: 0 0.4rem;
+		}
+	}
+
+	.list > li:focus-within {
+		transition: none;
+	}
+
+	/* Let the page transition capture the rows at their final positions. */
+	:root:active-view-transition .list > li {
+		transition: none;
+	}
+}
+
+@media (max-width: 31rem) {
+	.link {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

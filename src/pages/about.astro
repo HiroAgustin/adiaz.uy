@@ -1,11 +1,8 @@
 ---
-import { Image } from "astro:assets";
-import avatar from "../assets/avatar.jpg";
+import Portrait from "../components/Portrait.astro";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import styles from "./About.module.css";
-
-const today = new Date();
-const yearsOfExperience = today.getFullYear() - 2009 - (today.getMonth() < 6 ? 1 : 0);
+import content from "../styles/Content.module.css";
 ---
 
 <SiteLayout
@@ -13,43 +10,50 @@ const yearsOfExperience = today.getFullYear() - 2009 - (today.getMonth() < 6 ? 1
 	description="About Agustín Díaz, a design engineer working across design and frontend engineering, and the author of adiaz.uy."
 	type="AboutPage"
 >
-	<article>
-		<Image
-			class:list={["block m-auto rounded-full", styles.Avatar]}
-			src={avatar}
-			alt="Agustín"
-			width={160}
-			height={160}
-			densities={[1, 2]}
-			format="webp"
-			fit="cover"
-		/>
-		<h1>About</h1>
-		<p>
-			My name is Agustín, and I’m a Design Engineer at <a href="https://github.com/">GitHub</a>.
-		</p>
-		<p>
-			I work across design and frontend engineering, with {yearsOfExperience} years of experience
-			building for the web. I care about the details of an interface and the code behind it. I’ve
-			previously worked at places such as <a href="https://stripe.com/">Stripe</a>,{" "}
-			<a href="https://newrelic.com/">New Relic</a>,{" "}
-			<a href="https://www.personio.com/">Personio</a>, NetSuite, and Frameable.
-		</p>
-		<p>
-			I also spent time at <a href="https://www.recurse.com/">The Recurse Center</a>, sharpening my
-			programming skills alongside some of the nicest, most talented people I’ve ever met.
-		</p>
-		<p>
-			In my spare time I enjoy reading books, cycling on the{" "}
-			<a href="https://www.tripadvisor.com/ShowUserReviews-g294323-d2233045-r196103509-Rambla_de_Montevideo-Montevideo_Montevideo_Department.html">
-				promenade
-			</a>
-			, or playing video (or board) games. I’m also a dad to a very active child.
-		</p>
-		<p>
-			My online handle <em>HiroAgustin</em> is a reference to the lovable spacetime traveling
-			programmer/samurai <a href="https://en.wikipedia.org/wiki/Hiro_Nakamura">Hiro Nakamura</a> and
-			a nod to my gaming days.
-		</p>
+	<article class:list={[content.page, "mx-auto"]}>
+		<header class:list={[content.heading, styles.heading]}>
+			<div class={content.prose}>
+				<h1>
+					Hi, I’m{" "}
+					<span class="heading-outline" data-transition="first-name">
+						Agustín
+					</span>
+				</h1>
+				<p class={content.intro}>
+					I’ve been building for the web since 2009 and I’m currently a design engineer at{" "}
+					<strong>GitHub</strong>.
+				</p>
+				<p>
+					The browser is where I do my best design work. I like getting an interaction right there,
+					then giving it a home in the design system so the next person doesn’t have to start over.
+				</p>
+			</div>
+			<Portrait
+				class={styles.portrait}
+				size={224}
+				height={280}
+				alt="Agustín Díaz"
+				fetchpriority="high"
+			/>
+		</header>
+		<div class={content.prose}>
+			<p>
+				I’ve worked at both startups (<strong>Personio</strong>, <strong>Frameable</strong>, and{" "}
+				<strong>Plectica</strong>) and large companies (<strong>Stripe</strong>,{" "}
+				<strong>New Relic</strong>, and <strong>NetSuite</strong>). What I care about is the same
+				either way: shipping interfaces that feel good to use, down to the little details.
+			</p>
+			<p>
+				Attending the <a href="https://www.recurse.com/">Recurse Center</a> made me a better
+				programmer. It’s also where I met some of the kindest people I know.
+			</p>
+			<h2>Outside work</h2>
+			<p>
+				My kid keeps me busy. When I get some time to myself, I like to read or play video and board
+				games. The Hiro in <em>HiroAgustin</em> is my gaming moniker, borrowed from{" "}
+				<a href="https://en.wikipedia.org/wiki/Hiro_Nakamura">Hiro Nakamura</a>, the space-time
+				bending programmer samurai.
+			</p>
+		</div>
 	</article>
 </SiteLayout>

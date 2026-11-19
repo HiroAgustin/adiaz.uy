@@ -2,6 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import { formatDate } from "../lib/posts";
 import styles from "./BlogPost.module.css";
+import content from "../styles/Content.module.css";
+import metadata from "../styles/Metadata.module.css";
 
 interface Props {
 	post: CollectionEntry<"blog">;
@@ -10,13 +12,22 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<article class={styles.Post}>
-	<header>
-		<h1 class={styles.Post__Title}>{post.data.title}</h1>
-		<time class={styles.Post__Date} datetime={post.data.pubDate.toISOString()}>
+<article class:list={[content.page, "mx-auto"]}>
+	<header class={content.heading}>
+		<time
+			class:list={[metadata.label, metadata.eyebrow]}
+			datetime={post.data.pubDate.toISOString()}
+		>
 			{formatDate(post.data.pubDate)}
 		</time>
+		<h1 class="heading-outline">{post.data.title}</h1>
 	</header>
 
-	<slot />
+	<div class:list={[content.prose, styles.body]}>
+		<slot />
+	</div>
+
+	<a class:list={[styles.backLink, metadata.label, "inline-flex items-center"]} href="/archive/">
+		Back to writings
+	</a>
 </article>

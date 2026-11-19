@@ -4,13 +4,16 @@
 
 <style>
 	.skip-link {
+		--focus-surface: var(--surface);
 		position: fixed;
 		inset-block-start: 1rem;
-		inset-inline-start: 1rem;
+		inset-inline-start: max(var(--gutter), (100% - var(--site-width)) / 2);
 		z-index: 1;
-		padding: 0.5rem 1rem;
-		border: 1px solid currentColor;
-		background-color: var(--background);
+		padding: 0.5rem 0.75rem;
+		background-color: var(--surface);
+		color: var(--heading);
+		font-weight: 700;
+		text-decoration: none;
 	}
 
 	.skip-link:not(:focus) {

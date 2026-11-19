@@ -1,0 +1,26 @@
+.page {
+	max-inline-size: 46rem;
+}
+
+.heading {
+	display: grid;
+	gap: var(--heading-gap, 1rem);
+	margin-block-end: clamp(1.5rem, 5vw, 3rem);
+}
+
+.intro {
+	max-inline-size: 48ch;
+	font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+}
+
+.prose {
+	font-size: 1.125rem;
+}
+
+.prose > * + * {
+	margin-block-start: 1.25rem;
+}
+
+.prose :is(h2, h3, h4):not(:first-child) {
+	margin-block-start: 2.5rem;
+}

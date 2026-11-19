@@ -7,17 +7,8 @@ interface Props {
 	page: PageMetadata;
 }
 
-const {
-	title,
-	description,
-	type,
-	publishedAt,
-	modifiedAt,
-	canonical,
-	image,
-	imageMetadata,
-	structuredData,
-} = getPageMetadata(Astro.props.page, Astro.url, Astro.site);
+const { title, description, type, publishedAt, modifiedAt, canonical, image, structuredData } =
+	getPageMetadata(Astro.props.page, Astro.url, Astro.site);
 ---
 
 <meta charset="UTF-8" />
@@ -37,14 +28,18 @@ const {
 <link rel="canonical" href={canonical} />
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content={siteMetadata.title} />
-<meta property="og:image" content={image} />
-<meta property="og:image:height" content={String(imageMetadata.height)} />
-<meta property="og:image:width" content={String(imageMetadata.width)} />
+{image && (
+	<>
+		<meta property="og:image" content={image.url} />
+		<meta property="og:image:height" content={String(image.height)} />
+		<meta property="og:image:width" content={String(image.width)} />
+		<meta name="twitter:image" content={image.url} />
+	</>
+)}
 <meta property="og:type" content={type === "BlogPosting" ? "article" : "website"} />
 {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
 {modifiedAt && <meta property="article:modified_time" content={modifiedAt.toISOString()} />}
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content={image} />
+<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
 <meta property="twitter:title" content={title} />
 <meta name="twitter:site" content={siteMetadata.author.handle} />
 <meta name="twitter:creator" content={siteMetadata.author.handle} />
@@ -55,4 +50,4 @@ const {
 <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
 <link rel="alternate" type="application/rss+xml" title={siteMetadata.title} href="/rss.xml" />
 <link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#202020" />
+<meta name="theme-color" content="#1c1917" />

@@ -2,7 +2,7 @@
 	"short_name": "adiaz.uy",
 	"name": "Personal site and web development blog of @HiroAgustin.",
 	"start_url": "/",
-	"background_color": "#ffffff",
-	"theme_color": "#202020",
+	"background_color": "#1c1917",
+	"theme_color": "#1c1917",
 	"display": "standalone"
 }

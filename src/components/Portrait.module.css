@@ -1,0 +1,42 @@
+.frame {
+	flex: none;
+}
+
+.portrait {
+	display: block;
+	inline-size: 100%;
+	border-radius: var(--portrait-radius, 30%);
+	corner-shape: squircle;
+	background: var(--surface);
+	rotate: var(--portrait-tilt, 3deg);
+}
+
+@supports (corner-shape: squircle) {
+	.portrait {
+		border-radius: 50%;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.portrait {
+		view-transition-name: portrait;
+		view-transition-class: shared-content;
+	}
+
+	/* Stretch both crops into the same interpolated frame. */
+	::view-transition-old(portrait),
+	::view-transition-new(portrait) {
+		block-size: 100%;
+		object-fit: fill;
+	}
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+	.portrait {
+		transition: rotate 400ms var(--ease-out);
+	}
+
+	.frame:hover .portrait {
+		rotate: 0deg;
+	}
+}

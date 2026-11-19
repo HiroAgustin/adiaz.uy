@@ -1,0 +1,24 @@
+.underline {
+	text-decoration: underline;
+	text-decoration-color: var(--subtle);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.24em;
+}
+
+.underline:is(:hover, :focus-visible),
+a:is(:hover, :focus-visible) > .underline {
+	color: var(--link);
+	text-decoration-color: currentColor;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 0.38em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.underline {
+		transition:
+			color 180ms ease-out,
+			text-decoration-color 180ms ease-out,
+			text-underline-offset 240ms var(--ease-settle),
+			text-decoration-thickness 240ms var(--ease-settle);
+	}
+}

@@ -1,53 +1,28 @@
-.Footer__Content {
-	align-items: center;
-	border-top: var(--border) 1px solid;
+.footer {
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
+	align-items: end;
+	flex-wrap: wrap;
+	gap: 1rem 2rem;
+	padding-block: 1.5rem 2rem;
+	border-block-start: 1px solid var(--border);
 }
 
-.SocialNav {
-	display: flex;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+.email {
+	display: inline-block;
+	color: var(--heading);
+	font-family: var(--font-heading, system-ui);
+	font-size: clamp(1.4rem, 4vw, 2rem);
+	font-weight: 600;
+	text-decoration: none;
 }
 
-.SocialNav__Link {
-	align-items: center;
-	color: var(--subtle);
-	display: flex;
-	height: 100%;
-	padding: 0.75rem;
-	transition: color 0.15s ease-out;
+.email:hover {
+	text-decoration: underline;
 }
 
-.SocialNav__Link:hover,
-.SocialNav__Link:focus {
-	color: darkorange;
-}
-
-.SocialNav__Link--GitHub:hover,
-.SocialNav__Link--GitHub:focus {
-	color: light-dark(#181717, #eeeeee);
-}
-
-.SocialNav__Link--Bluesky:hover,
-.SocialNav__Link--Bluesky:focus {
-	color: #1185fe;
-}
-
-.SocialNav__Link--LinkedIn:hover,
-.SocialNav__Link--LinkedIn:focus {
-	color: light-dark(#0077b5, #70b5f9);
-}
-
-.SocialNav__Link--CodePen:hover,
-.SocialNav__Link--CodePen:focus {
-	color: light-dark(#000000, #ffffff);
-}
-
-.SocialNav__Link--RSS:hover,
-.SocialNav__Link--RSS:focus {
-	color: #ffa500;
+.links a {
+	min-block-size: 2.75rem;
+	color: var(--text);
+	font-size: 0.875rem;
 }

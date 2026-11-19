@@ -1,0 +1,11 @@
+.label {
+	color: var(--subtle);
+	font-family: var(--font-mono, monospace);
+	font-size: 0.75rem;
+	letter-spacing: 0.035em;
+	text-box: trim-both cap alphabetic;
+}
+
+.eyebrow {
+	text-transform: uppercase;
+}

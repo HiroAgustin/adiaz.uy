@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { featuredPosts, formatDate } from "../lib/posts";
+import styles from "./PostList.module.css";
+import linkStyles from "../styles/LinkUnderline.module.css";
+import metadata from "../styles/Metadata.module.css";
+
+interface Props {
+	posts: CollectionEntry<"blog">[];
+	variant?: "plain" | "ruled";
+	showSummaries?: boolean;
+}
+
+const { posts, variant = "ruled", showSummaries = false } = Astro.props;
+
+const postTransitionName = (id: string) =>
+	`post-${id.replace(/[^a-z0-9-]/gi, (character) => `\\${character.codePointAt(0)!.toString(16)} `)}`;
+---
+
+<ul class:list={[styles.list, variant === "plain" && styles.plain]} role="list">
+	{posts.map((post, index) => (
+		<li
+			style={{
+				"--post-index": index,
+				"--post-transition": featuredPosts.has(post.id) ? postTransitionName(post.id) : undefined,
+			}}
+		>
+			<a class:list={[styles.link, "gap-x-4 gap-y-1"]} href={`/${post.id}/`}>
+				<span class={linkStyles.underline}>{post.data.title}</span>
+				<time class={metadata.label} datetime={post.data.pubDate.toISOString()}>
+					{formatDate(post.data.pubDate)}
+				</time>
+				{showSummaries && <span class={styles.summary}>{featuredPosts.get(post.id)}</span>}
+			</a>
+		</li>
+	))}
+</ul>

@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets";
+import avatar from "../assets/avatar.jpg";
+import styles from "./Portrait.module.css";
+
+interface Props {
+	size: number;
+	height?: number;
+	alt: string;
+	class?: string;
+	fetchpriority?: "high" | "low" | "auto";
+	responsive?: { widths: number[]; sizes: string };
+}
+
+const { size, height = size, alt, class: className, fetchpriority, responsive } = Astro.props;
+---
+
+<div class:list={[styles.frame, className]}>
+	<Image
+		class={styles.portrait}
+		src={avatar}
+		alt={alt}
+		width={size}
+		height={height}
+		{...(responsive ?? { densities: [1, 2] })}
+		format="webp"
+		fit="cover"
+		loading="eager"
+		fetchpriority={fetchpriority}
+	/>
+</div>

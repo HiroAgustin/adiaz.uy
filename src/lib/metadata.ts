@@ -25,22 +25,19 @@ export const getPageMetadata = (page: PageMetadata, url: URL, site: URL | undefi
 	if (!site) throw new Error("Configure the site URL before building the site.");
 
 	const canonical = new URL(url.pathname, site);
-	const imageMetadata = postImage ?? siteMetadata.logo;
-	const image = new URL(imageMetadata.path, site);
-	const authorUrl = new URL("/about/", site);
-	const avatar = {
+	const image = postImage && {
 		"@type": "ImageObject",
-		url: new URL(siteMetadata.avatar.path, site).href,
-		width: siteMetadata.avatar.width,
-		height: siteMetadata.avatar.height,
+		url: new URL(postImage.path, site).href,
+		height: postImage.height,
+		width: postImage.width,
 	};
+	const authorUrl = new URL("/about/", site);
 
 	const author = {
 		"@type": "Person",
 		"@id": new URL("#person", authorUrl).href,
 		name: siteMetadata.author.name,
 		url: authorUrl.href,
-		image: avatar,
 		sameAs: siteMetadata.socialLinks,
 	};
 
@@ -67,18 +64,8 @@ export const getPageMetadata = (page: PageMetadata, url: URL, site: URL | undefi
 		publisher: { "@id": author["@id"] },
 		datePublished: publishedAt?.toISOString(),
 		dateModified: modifiedAt?.toISOString(),
+		image,
 	};
-
-	if (type !== "BlogPosting" || postImage) {
-		Object.assign(structuredData, {
-			image: {
-				"@type": "ImageObject",
-				url: image.href,
-				height: imageMetadata.height,
-				width: imageMetadata.width,
-			},
-		});
-	}
 
 	if (type !== "WebSite") {
 		Object.assign(structuredData, { isPartOf: website });
@@ -113,7 +100,6 @@ export const getPageMetadata = (page: PageMetadata, url: URL, site: URL | undefi
 		modifiedAt,
 		canonical,
 		image,
-		imageMetadata,
 		structuredData,
 	};
 };

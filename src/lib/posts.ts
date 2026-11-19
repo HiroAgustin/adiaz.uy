@@ -1,5 +1,14 @@
 import { getCollection } from "astro:content";
 
+export const featuredPosts = new Map([
+	["user-avatar", "Round avatars are easy until somebody uploads a tall photo."],
+	[
+		"block-level-links",
+		"I wanted the whole card to be clickable without making the whole card one big link.",
+	],
+	["chips", "I couldn't find poker chips I liked, so I drew my own with a few SVG circles."],
+]);
+
 export async function getPosts() {
 	const posts = await getCollection("blog", ({ data }) => import.meta.env.DEV || !data.draft);
 	return posts.sort(

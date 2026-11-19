@@ -19,10 +19,32 @@ type Props = PageMetadata;
 	</head>
 	<body>
 		<SkipLink />
-		<Header />
+		<Header writingSection={Astro.props.type === "BlogPosting"} />
 		<main id="content" tabindex="-1">
 			<slot />
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<script>
+	const turnProperty = "--focus-turn";
+
+	document.addEventListener("transitionend", ({ propertyName, pseudoElement, target }) => {
+		if (
+			propertyName !== "--focus-angle" ||
+			pseudoElement !== "::before" ||
+			!(target instanceof HTMLElement) ||
+			!target.matches(":focus-visible")
+		) {
+			return;
+		}
+
+		const turn = Number(target.style.getPropertyValue(turnProperty) || 1);
+		target.style.setProperty(turnProperty, String(turn + 1));
+	});
+
+	document.addEventListener("focusout", ({ target }) => {
+		if (target instanceof HTMLElement) target.style.removeProperty(turnProperty);
+	});
+</script>

@@ -7,27 +7,6 @@
 			<stop offset="70%" stop-color="white" stop-opacity="0" />
 			<stop offset="100%" stop-color="white" stop-opacity="0.125" />
 		</linearGradient>
-
-		<radialGradient id="cracks" gradientUnits="userSpaceOnUse" cx="64" cy="64" r="64">
-			<stop offset="35%" stop-color="#dcefff" />
-			<stop offset="70%" stop-color="#dcefff" stop-opacity="0.7" />
-			<stop offset="100%" stop-color="#dcefff" stop-opacity="0.15" />
-		</radialGradient>
-
-		<filter id="shading" color-interpolation-filters="sRGB">
-			<feComponentTransfer in="SourceGraphic" result="flat-colors">
-				<feFuncR type="discrete" tableValues="0 0.2 0.35 0.5 0.65 0.8 0.9 1" />
-				<feFuncG type="discrete" tableValues="0 0.2 0.35 0.5 0.65 0.8 0.9 1" />
-				<feFuncB type="discrete" tableValues="0 0.2 0.35 0.5 0.65 0.8 0.9 1" />
-			</feComponentTransfer>
-			<feComposite
-				in="flat-colors"
-				in2="SourceGraphic"
-				operator="arithmetic"
-				k2="0.35"
-				k3="0.65"
-			/>
-		</filter>
 	</defs>
 
 	<path
@@ -42,31 +21,15 @@
 			Z
 		"
 	/>
-	<g fill="none" stroke="url(#cracks)" stroke-linecap="round" stroke-linejoin="round">
-		<g stroke-width="1.5" stroke-opacity="0.6">
-			<path d="M 51 49 L 40 35 L 36 21 L 24 11" />
-			<path d="M 73 47 L 82 33 L 84 19" />
-			<path d="M 88 58 L 103 51 L 119 53" />
-			<path d="M 85 79 L 96 93 L 99 108 L 109 118" />
-			<path d="M 39 69 L 25 74 L 10 69" />
-		</g>
-		<g stroke-width="0.75" stroke-opacity="0.3">
-			<path d="M 40 35 L 26 32 L 18 23 M 36 21 L 41 14" />
-			<path d="M 82 33 L 94 28 L 99 19" />
-			<path d="M 103 51 L 108 62 L 117 67" />
-			<path d="M 96 93 L 109 89 M 99 108 L 91 116" />
-			<path d="M 25 74 L 21 86 L 14 92" />
-		</g>
-	</g>
 
 	<text
 		x="64"
-		y="68"
-		font-size="80"
+		y="60"
+		font-size="100"
+		fill="DeepSkyBlue"
 		text-anchor="middle"
 		dominant-baseline="central"
-		filter="url(#shading)"
 	>
-		👊🏼
+		⊹
 	</text>
 </svg>

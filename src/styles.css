@@ -1,27 +1,228 @@
-:root {
-	--background: light-dark(var(--color-taupe-50), var(--color-neutral-900));
-	--text: light-dark(var(--color-neutral-600), oklch(81% 5% 243));
-	--heading: light-dark(oklch(31% 0 0), var(--color-neutral-100));
-	--border: light-dark(var(--color-neutral-200), var(--color-neutral-700));
-	--subtle: light-dark(oklch(80.5% 0 0), var(--color-neutral-400));
-	--link: var(--color-orange-400);
+@property --focus-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 25deg;
 }
 
-body {
-	background-color: var(--background);
-	font-family: var(--font-body);
-	font-size: 18px;
-	color: var(--text);
+@layer defaults {
+	:root {
+		--background: var(--color-zinc-900);
+		--surface: var(--color-zinc-800);
+		--heading: var(--color-zinc-100);
+		--text: var(--color-zinc-300);
+		--subtle: var(--color-zinc-400);
+		--border: var(--color-zinc-700);
+		--accent: var(--color-blue-600);
+		--link: var(--color-blue-300);
+		--on-accent: var(--color-zinc-950);
+		--gutter: clamp(1rem, 5vw, 3rem);
+		--site-width: 70rem;
+		--page-space: clamp(3rem, 8vw, 6rem);
+		--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+		--ease-glide: cubic-bezier(0.45, 0, 0.15, 1);
+		--ease-settle: cubic-bezier(0.28, 0.72, 0.24, 1);
+		--ease-depart: cubic-bezier(0.5, 0, 0.8, 0.36);
+		--post-entry-duration: 700ms;
+		--post-entry-step: 110ms;
+		--post-entry-delay-cap: 550ms;
+	}
+
+	body {
+		grid-template-columns: minmax(0, var(--site-width));
+		padding-inline: var(--gutter);
+		background: var(--background);
+		color: var(--text);
+		font-family: var(--font-body, system-ui);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+	}
+
+	main {
+		padding-block: var(--page-space);
+		min-inline-size: 0;
+		scroll-margin-block-start: 0.75rem;
+	}
+
+	#content:focus-visible {
+		--focus-radius: 0.5rem;
+		--focus-offset: 0.25rem;
+	}
+
+	:focus-visible {
+		border-radius: var(--focus-radius, 0.25rem);
+		outline: 2px solid var(--heading);
+		outline-offset: var(--focus-offset, 2px);
+	}
+
+	@media (forced-colors: none) {
+		@supports (background-image: conic-gradient(in oklab, red, blue)) {
+			/* Replaced elements cannot draw a pseudo-element; keep their solid outline. */
+			:where(a, button, summary, main, [tabindex]):not(
+					:where(input, select, textarea, img, iframe, object, embed, audio, video, canvas, svg)
+				):focus-visible {
+				position: relative;
+				isolation: isolate;
+				outline-color: transparent;
+
+				&::before {
+					--focus-rainbow: conic-gradient(
+						from var(--focus-angle, 25deg) in oklab,
+						var(--color-red-300),
+						var(--color-yellow-300),
+						var(--color-green-300),
+						var(--color-cyan-300),
+						var(--color-violet-300),
+						var(--color-red-300)
+					);
+
+					content: "";
+					position: absolute;
+					z-index: -1;
+					inset: calc(-2px - var(--focus-offset, 2px));
+					border: 2px solid transparent;
+					border-radius: calc(var(--focus-radius, 0.25rem) + var(--focus-offset, 2px) + 2px);
+					corner-shape: inherit;
+					background-image:
+						linear-gradient(var(--focus-surface, var(--background)) 0 0), var(--focus-rainbow);
+					background-origin: border-box;
+					background-clip: padding-box, border-box;
+					pointer-events: none;
+
+					@supports (background-clip: border-area) {
+						background-image: var(--focus-rainbow);
+						background-clip: border-area;
+					}
+
+					@media (prefers-reduced-motion: no-preference) {
+						--focus-angle: calc(25deg + var(--focus-turn, 1) * 1turn);
+						transition: --focus-angle 6s linear;
+
+						@starting-style {
+							--focus-angle: 25deg;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	:where(h1, h2, h3, h4) {
+		color: var(--heading);
+		font-family: var(--font-heading, system-ui);
+		font-weight: 600;
+		letter-spacing: -0.035em;
+	}
+
+	h1 {
+		font-size: clamp(2.25rem, 1rem + 4.25vw, 4.75rem);
+		line-height: 1.05;
+		letter-spacing: -0.045em;
+	}
+
+	h2 {
+		font-size: clamp(1.5rem, 3vw, 2rem);
+	}
+
+	a {
+		corner-shape: squircle;
+		color: var(--link);
+		text-underline-offset: 0.22em;
+		text-decoration-thickness: 1px;
+	}
+
+	a:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	@supports (corner-shape: squircle) {
+		a,
+		a:focus-visible,
+		a:focus-visible::before {
+			border-radius: 50%;
+		}
+	}
+
+	.heading-outline {
+		--outline-color: color-mix(in oklab, var(--link) 55%, var(--background));
+		/* The background-colored shadow hollows out the offset lettering. */
+		text-shadow:
+			3px 3px var(--background),
+			2px 2px var(--outline-color),
+			4px 2px var(--outline-color),
+			2px 4px var(--outline-color),
+			4px 4px var(--outline-color);
+	}
+
+	::selection {
+		background: var(--link);
+		color: var(--on-accent);
+	}
 }
 
-a {
-	color: var(--link);
+@media (prefers-reduced-motion: no-preference) {
+	/* The shared reset opts both documents in to native view transitions. */
+	main {
+		view-transition-name: page;
+	}
+
+	[data-transition="writing-title"] {
+		/* Size the snapshot to the lettering, not the full column. */
+		inline-size: fit-content;
+		view-transition-name: writing-title;
+		view-transition-class: shared-content;
+	}
+
+	@supports (view-transition-name: first-name) {
+		[data-transition="first-name"] {
+			display: inline-block;
+			view-transition-name: first-name;
+			view-transition-class: shared-content;
+		}
+	}
+
+	::view-transition-group(*) {
+		animation-timing-function: var(--ease-settle);
+	}
+
+	::view-transition-group(page) {
+		animation-duration: 260ms;
+	}
+
+	::view-transition-group(.shared-content) {
+		animation-duration: 440ms;
+	}
+
+	::view-transition-old(page) {
+		animation: 140ms var(--ease-depart) both page-out;
+	}
+
+	::view-transition-new(page) {
+		animation: 260ms var(--ease-out) both page-in;
+	}
 }
 
-h1,
-h2,
-h3,
-h4 {
-	color: var(--heading);
-	font-family: var(--font-heading);
+@keyframes page-out {
+	to {
+		opacity: 0;
+		translate: 0 -0.25rem;
+	}
+}
+
+@keyframes page-in {
+	from {
+		opacity: 0;
+		translate: 0 0.4rem;
+	}
+}
+
+@media (forced-colors: active) {
+	:root {
+		--accent: ButtonFace;
+		--link: LinkText;
+		--on-accent: ButtonText;
+	}
+
+	:focus-visible {
+		outline-color: CanvasText;
+	}
 }
