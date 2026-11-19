@@ -1,39 +1,32 @@
 ---
 import { siteMetadata } from "../lib/site";
-import styles from "./Header.module.css";
 
 const links = [
-  { href: "/about/", title: "About" },
-  { href: "/archive/", title: "Archive" },
+	{ href: "/about/", title: "About" },
+	{ href: "/archive/", title: "Archive" },
 ];
 ---
 
-<header class={styles.Header}>
-  <div class:list={["Container", styles.Header__Content]}>
-    <div class={styles.Header__Title}>
-      <a href="/" title="Home">
-        {siteMetadata.title}
-      </a>{" "}
-      <small>({siteMetadata.author.handle})</small>
-    </div>
-    <nav class={styles.Header__Navigation} aria-label="Main">
-      <ul class={styles.Header__Nav}>
-        {links.map(({ href, title }) => (
-          <li class="Header__Nav__Item">
-            <a
-              class:list={[
-                styles.Header__Nav__Link,
-                { [styles["Header__Nav__Link--active"]]: Astro.url.pathname === href },
-              ]}
-              href={href}
-              title={title}
-              aria-current={Astro.url.pathname === href ? "page" : undefined}
-            >
-              {title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  </div>
+<header>
+	<div>
+		<a href="/" title="Home">
+			{siteMetadata.title}
+		</a>{" "}
+		<small>({siteMetadata.author.handle})</small>
+	</div>
+	<nav aria-label="Main">
+		<ul>
+			{links.map(({ href, title }) => (
+				<li>
+					<a
+						href={href}
+						title={title}
+						aria-current={Astro.url.pathname === href ? "page" : undefined}
+					>
+						{title}
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
 </header>

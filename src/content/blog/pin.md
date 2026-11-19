@@ -28,7 +28,7 @@ You can easily pin a list item to the top of the list using flexbox…
 }
 ```
 
-<aside class="Message Message--Warning">
+<aside>
 
 Beware of the accessibility implications this entails. The order will only change visually, not when
 navigating through keyboard.

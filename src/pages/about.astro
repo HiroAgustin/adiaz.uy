@@ -9,47 +9,47 @@ const yearsOfExperience = today.getFullYear() - 2009 - (today.getMonth() < 6 ? 1
 ---
 
 <SiteLayout
-  title="About"
-  description="About Agustín Díaz, a design engineer working across design and frontend engineering, and the author of adiaz.uy."
-  type="AboutPage"
+	title="About"
+	description="About Agustín Díaz, a design engineer working across design and frontend engineering, and the author of adiaz.uy."
+	type="AboutPage"
 >
-  <article class="Page">
-    <Image
-      class:list={["block m-auto rounded-full", styles.Avatar]}
-      src={avatar}
-      alt="Agustín"
-      width={160}
-      height={160}
-      densities={[1, 2]}
-      format="webp"
-      fit="cover"
-    />
-    <h1 class="Page__Title">About</h1>
-    <p class="lead">
-      My name is Agustín, and I’m a Design Engineer at <a href="https://github.com/">GitHub</a>.
-    </p>
-    <p>
-      I work across design and frontend engineering, with {yearsOfExperience} years of experience
-      building for the web. I care about the details of an interface and the code behind it. I’ve
-      previously worked at places such as <a href="https://stripe.com/">Stripe</a>,{" "}
-      <a href="https://newrelic.com/">New Relic</a>,{" "}
-      <a href="https://www.personio.com/">Personio</a>, NetSuite, and Frameable.
-    </p>
-    <p>
-      I also spent time at <a href="https://www.recurse.com/">The Recurse Center</a>, sharpening my
-      programming skills alongside some of the nicest, most talented people I’ve ever met.
-    </p>
-    <p>
-      In my spare time I enjoy reading books, cycling on the{" "}
-      <a href="https://www.tripadvisor.com/ShowUserReviews-g294323-d2233045-r196103509-Rambla_de_Montevideo-Montevideo_Montevideo_Department.html">
-        promenade
-      </a>
-      , or playing video (or board) games. I’m also a dad to a very active child.
-    </p>
-    <p>
-      My online handle <em>HiroAgustin</em> is a reference to the lovable spacetime traveling
-      programmer/samurai <a href="https://en.wikipedia.org/wiki/Hiro_Nakamura">Hiro Nakamura</a> and
-      a nod to my gaming days.
-    </p>
-  </article>
+	<article>
+		<Image
+			class:list={["block m-auto rounded-full", styles.Avatar]}
+			src={avatar}
+			alt="Agustín"
+			width={160}
+			height={160}
+			densities={[1, 2]}
+			format="webp"
+			fit="cover"
+		/>
+		<h1>About</h1>
+		<p>
+			My name is Agustín, and I’m a Design Engineer at <a href="https://github.com/">GitHub</a>.
+		</p>
+		<p>
+			I work across design and frontend engineering, with {yearsOfExperience} years of experience
+			building for the web. I care about the details of an interface and the code behind it. I’ve
+			previously worked at places such as <a href="https://stripe.com/">Stripe</a>,{" "}
+			<a href="https://newrelic.com/">New Relic</a>,{" "}
+			<a href="https://www.personio.com/">Personio</a>, NetSuite, and Frameable.
+		</p>
+		<p>
+			I also spent time at <a href="https://www.recurse.com/">The Recurse Center</a>, sharpening my
+			programming skills alongside some of the nicest, most talented people I’ve ever met.
+		</p>
+		<p>
+			In my spare time I enjoy reading books, cycling on the{" "}
+			<a href="https://www.tripadvisor.com/ShowUserReviews-g294323-d2233045-r196103509-Rambla_de_Montevideo-Montevideo_Montevideo_Department.html">
+				promenade
+			</a>
+			, or playing video (or board) games. I’m also a dad to a very active child.
+		</p>
+		<p>
+			My online handle <em>HiroAgustin</em> is a reference to the lovable spacetime traveling
+			programmer/samurai <a href="https://en.wikipedia.org/wiki/Hiro_Nakamura">Hiro Nakamura</a> and
+			a nod to my gaming days.
+		</p>
+	</article>
 </SiteLayout>

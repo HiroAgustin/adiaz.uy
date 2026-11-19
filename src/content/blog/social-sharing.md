@@ -17,5 +17,5 @@ The tradeoff being the loss of the nice on-screen pop-up windows…
 Feel free to [Tweet][tweet] or [Share][share] this post.
 
 [tweet]:
-  https://twitter.com/intent/tweet?text=Add%20social%20sharing%20links%20with%20no%20JS&url=https://adiaz.uy/social-sharing/&via=HiroAgustin
+	https://twitter.com/intent/tweet?text=Add%20social%20sharing%20links%20with%20no%20JS&url=https://adiaz.uy/social-sharing/&via=HiroAgustin
 [share]: https://www.facebook.com/sharer.php?u=https://adiaz.uy/social-sharing/

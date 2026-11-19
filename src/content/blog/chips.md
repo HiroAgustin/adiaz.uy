@@ -25,7 +25,7 @@ just a circle with stripes after all.
 <circle fill="none" stroke="navy" stroke-width="5" cx="100" cy="100" r="60" />
 ```
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="d-block m-auto" width="100%" height="250px">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="m-auto" width="100%" height="250px">
   <!-- Chip -->
   <circle fill="white" stroke="black" cx="100" cy="100" r="89" />
   <!-- Large Stripe -->
@@ -47,7 +47,7 @@ of the dashes we can set the `stroke-dashoffset` value on each stripe.
 <circle fill="none" stroke="navy" stroke-width="5" stroke-dasharray="15.7" stroke-dashoffset="7" cx="100" cy="100" r="60" />
 ```
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="d-block m-auto" width="100%" height="250px">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="m-auto" width="100%" height="250px">
   <!-- Chip -->
   <circle fill="white" stroke="black" cx="100" cy="100" r="89" />
   <!-- Large Stripe -->

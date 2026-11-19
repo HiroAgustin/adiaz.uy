@@ -4,29 +4,29 @@ import { getPosts } from "../lib/posts";
 import { siteMetadata } from "../lib/site";
 
 export const GET: APIRoute = async ({ site }) => {
-  if (!site) {
-    throw new Error("Configure the site URL before building the feed.");
-  }
+	if (!site) {
+		throw new Error("Configure the site URL before building the feed.");
+	}
 
-  const posts = await getPosts();
+	const posts = await getPosts();
 
-  return rss({
-    title: siteMetadata.title,
-    description: siteMetadata.description,
-    site,
-    customData: "<language>en</language>",
-    items: posts.map((post) => {
-      if (!post.rendered) {
-        throw new Error(`Missing rendered content for blog post "${post.id}".`);
-      }
+	return rss({
+		title: siteMetadata.title,
+		description: siteMetadata.description,
+		site,
+		customData: "<language>en</language>",
+		items: posts.map((post) => {
+			if (!post.rendered) {
+				throw new Error(`Missing rendered content for blog post "${post.id}".`);
+			}
 
-      return {
-        title: post.data.title,
-        description: post.data.description,
-        pubDate: post.data.pubDate,
-        link: `/${post.id}/`,
-        content: post.rendered.html,
-      };
-    }),
-  });
+			return {
+				title: post.data.title,
+				description: post.data.description,
+				pubDate: post.data.pubDate,
+				link: `/${post.id}/`,
+				content: post.rendered.html,
+			};
+		}),
+	});
 };

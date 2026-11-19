@@ -1,123 +1,28 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { Font } from "astro:assets";
+import type { PageMetadata } from "../lib/metadata";
+
+import SiteHead from "../components/SiteHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { siteMetadata } from "../lib/site";
+import SkipLink from "../components/SkipLink.astro";
+
 import "../styles/global.css";
 import "../styles.css";
-import styles from "./SiteLayout.module.css";
 
-interface Props {
-  title?: string;
-  description?: string;
-  type?: "Blog" | "WebSite" | "WebPage" | "BlogPosting" | "AboutPage";
-  publishedAt?: Date;
-  modifiedAt?: Date;
-  image?: CollectionEntry<"blog">["data"]["image"];
-  previous?: string;
-  next?: string;
-}
-
-const {
-  title = siteMetadata.title,
-  description = siteMetadata.description,
-  type = "WebPage",
-  publishedAt,
-  modifiedAt,
-  image: postImage,
-  previous,
-  next,
-} = Astro.props;
-
-if (!Astro.site) {
-  throw new Error("Configure the site URL before building the site.");
-}
-
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const imageMetadata = postImage ?? siteMetadata.logo;
-const image = new URL(imageMetadata.path, Astro.site);
-const authorUrl = new URL("/about/", Astro.site);
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": type,
-  name: siteMetadata.title,
-  headline: title,
-  description,
-  url: canonical.href,
-  ...((type !== "BlogPosting" || postImage) && {
-    image: {
-      "@type": "ImageObject",
-      url: image.href,
-      height: `${imageMetadata.height} px`,
-      width: `${imageMetadata.width} px`,
-    },
-  }),
-  author: { "@type": "Person", name: siteMetadata.author.name, url: authorUrl.href },
-  ...((type === "Blog" || type === "WebSite" || type === "AboutPage") && {
-    sameAs: siteMetadata.socialLinks,
-  }),
-  ...(publishedAt && {
-    datePublished: publishedAt.toISOString(),
-    mainEntityOfPage: { "@type": "WebPage", "@id": canonical.href },
-  }),
-  ...(modifiedAt && { dateModified: modifiedAt.toISOString() }),
-};
+type Props = PageMetadata;
 ---
 
 <!doctype html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="color-scheme" content="light dark" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Font cssVariable="--font-body" preload={[{ weight: 400, style: "normal" }]} />
-    <Font cssVariable="--font-heading" preload />
-    <meta name="google-site-verification" content="H3h1-fkuHBo-jtqa_TZWrWFlc8DFdeTWSw1bqyYFFUs" />
-    <title>{title === siteMetadata.title ? title : `${title} · ${siteMetadata.title}`}</title>
-    <meta name="author" content={siteMetadata.author.name} />
-    <meta property="og:locale" content="en_US" />
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content={siteMetadata.title} />
-    <meta property="og:image" content={image} />
-    <meta property="og:image:height" content={String(imageMetadata.height)} />
-    <meta property="og:image:width" content={String(imageMetadata.width)} />
-    <meta property="og:type" content={type === "BlogPosting" ? "article" : "website"} />
-    {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
-    {modifiedAt && <meta property="article:modified_time" content={modifiedAt.toISOString()} />}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:image" content={image} />
-    <meta property="twitter:title" content={title} />
-    <meta name="twitter:site" content={siteMetadata.author.handle} />
-    <meta name="twitter:creator" content={siteMetadata.author.handle} />
-    {previous && <link rel="prev" href={previous} />}
-    {next && <link rel="next" href={next} />}
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(structuredData).replaceAll("<", "\\u003c")}
-    />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII="
-    />
-    <link rel="alternate" type="application/rss+xml" title={siteMetadata.title} href="/rss.xml" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#202020" />
-  </head>
-  <body>
-    <Header />
-    <main class={styles.main}>
-      <div class="Container">
-        <slot />
-      </div>
-    </main>
-    <Footer />
-  </body>
+	<head>
+		<SiteHead page={Astro.props} />
+	</head>
+	<body>
+		<SkipLink />
+		<Header />
+		<main id="content" tabindex="-1">
+			<slot />
+		</main>
+		<Footer />
+	</body>
 </html>

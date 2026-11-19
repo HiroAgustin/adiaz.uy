@@ -14,7 +14,7 @@ inject malicious code.
 The solution is simple, just add `rel="noopener noreferrer"` to those links and you should be good
 to go.
 
-<aside class="Message Message--Warning">
+<aside>
 
 It might be worth asking if links should
 [open in a new window](https://www.smashingmagazine.com/2008/07/should-links-open-in-new-windows/)

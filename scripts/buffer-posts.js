@@ -5,85 +5,85 @@ import { readFileSync } from "node:fs";
 const bufferModes = ["shareNow", "addToQueue"];
 
 export function git(...args) {
-  return execFileSync("git", args, { encoding: "utf8" });
+	return execFileSync("git", args, { encoding: "utf8" });
 }
 
 function frontmatter(source, path) {
-  const lines = source.split("\n");
-  if (lines[0].replace(/^\uFEFF/, "").trimEnd() !== "---") {
-    throw new Error(`Missing YAML frontmatter in ${path}.`);
-  }
-  const end = lines.findIndex((line, index) => index > 0 && line.trimEnd() === "---");
-  if (end === -1) throw new Error(`Missing closing frontmatter delimiter in ${path}.`);
-  const data = parse(`${lines.slice(1, end).join("\n")}\n`);
-  if (!data || typeof data !== "object" || Array.isArray(data)) {
-    throw new Error(`Expected YAML frontmatter fields in ${path}.`);
-  }
-  return { data, lines, end };
+	const lines = source.split("\n");
+	if (lines[0].replace(/^\uFEFF/, "").trimEnd() !== "---") {
+		throw new Error(`Missing YAML frontmatter in ${path}.`);
+	}
+	const end = lines.findIndex((line, index) => index > 0 && line.trimEnd() === "---");
+	if (end === -1) throw new Error(`Missing closing frontmatter delimiter in ${path}.`);
+	const data = parse(`${lines.slice(1, end).join("\n")}\n`);
+	if (!data || typeof data !== "object" || Array.isArray(data)) {
+		throw new Error(`Expected YAML frontmatter fields in ${path}.`);
+	}
+	return { data, lines, end };
 }
 
 export function getNewPosts({ base } = {}) {
-  const staged = base === undefined;
-  if (!staged && (!/^[a-f0-9]{40}$/i.test(base) || /^0+$/.test(base))) {
-    throw new Error("Set BUFFER_BASE_REF to the full commit SHA before the new posts.");
-  }
+	const staged = base === undefined;
+	if (!staged && (!/^[a-f0-9]{40}$/i.test(base) || /^0+$/.test(base))) {
+		throw new Error("Set BUFFER_BASE_REF to the full commit SHA before the new posts.");
+	}
 
-  const changes = git(
-    "diff",
-    ...(staged ? ["--cached"] : []),
-    "--name-status",
-    "-z",
-    "--diff-filter=AMR",
-    "--find-renames",
-    ...(staged ? [] : [base, "HEAD"]),
-    "--",
-    "src/content/blog",
-  )
-    .split("\0")
-    .filter(Boolean);
+	const changes = git(
+		"diff",
+		...(staged ? ["--cached"] : []),
+		"--name-status",
+		"-z",
+		"--diff-filter=AMR",
+		"--find-renames",
+		...(staged ? [] : [base, "HEAD"]),
+		"--",
+		"src/content/blog",
+	)
+		.split("\0")
+		.filter(Boolean);
 
-  const posts = [];
-  for (let index = 0; index < changes.length;) {
-    const status = changes[index++];
-    const previousPath = changes[index++];
-    const path = status.startsWith("R") ? changes[index++] : previousPath;
-    if (!path.endsWith(".md")) continue;
-    const source = git("show", `${staged ? "" : "HEAD"}:${path}`);
-    const metadata = frontmatter(source, path);
-    const { data } = metadata;
-    if (data.draft === true) continue;
-    if (status !== "A") {
-      const previous = git("show", `${staged ? "HEAD" : base}:${previousPath}`);
-      if (frontmatter(previous, previousPath).data.draft !== true) continue;
-    }
-    if (data.bufferMode !== undefined && !bufferModes.includes(data.bufferMode)) {
-      throw new Error(`Invalid bufferMode in ${path}: use shareNow or addToQueue.`);
-    }
-    if (
-      data.bufferChannels !== undefined &&
-      (!Array.isArray(data.bufferChannels) ||
-        !data.bufferChannels.length ||
-        data.bufferChannels.some(
-          (id) => typeof id !== "string" || !id.trim() || id !== id.trim(),
-        ) ||
-        new Set(data.bufferChannels).size !== data.bufferChannels.length)
-    ) {
-      throw new Error(`Invalid bufferChannels in ${path}: use a non-empty list of channel IDs.`);
-    }
-    posts.push({ path, source, ...metadata });
-  }
-  return posts;
+	const posts = [];
+	for (let index = 0; index < changes.length;) {
+		const status = changes[index++];
+		const previousPath = changes[index++];
+		const path = status.startsWith("R") ? changes[index++] : previousPath;
+		if (!path.endsWith(".md")) continue;
+		const source = git("show", `${staged ? "" : "HEAD"}:${path}`);
+		const metadata = frontmatter(source, path);
+		const { data } = metadata;
+		if (data.draft === true) continue;
+		if (status !== "A") {
+			const previous = git("show", `${staged ? "HEAD" : base}:${previousPath}`);
+			if (frontmatter(previous, previousPath).data.draft !== true) continue;
+		}
+		if (data.bufferMode !== undefined && !bufferModes.includes(data.bufferMode)) {
+			throw new Error(`Invalid bufferMode in ${path}: use shareNow or addToQueue.`);
+		}
+		if (
+			data.bufferChannels !== undefined &&
+			(!Array.isArray(data.bufferChannels) ||
+				!data.bufferChannels.length ||
+				data.bufferChannels.some(
+					(id) => typeof id !== "string" || !id.trim() || id !== id.trim(),
+				) ||
+				new Set(data.bufferChannels).size !== data.bufferChannels.length)
+		) {
+			throw new Error(`Invalid bufferChannels in ${path}: use a non-empty list of channel IDs.`);
+		}
+		posts.push({ path, source, ...metadata });
+	}
+	return posts;
 }
 
 export function getPublishingPosts() {
-  const posts = getNewPosts({ base: process.env.BUFFER_BASE_REF ?? "" });
-  for (const { path, source, data } of posts) {
-    if (readFileSync(path, "utf8") !== source) {
-      throw new Error(`${path} has uncommitted changes. Publish from the committed version.`);
-    }
-    if (!data.bufferMode || !data.bufferChannels) {
-      throw new Error(`Choose a bufferMode and bufferChannels for ${path} before publishing.`);
-    }
-  }
-  return posts;
+	const posts = getNewPosts({ base: process.env.BUFFER_BASE_REF ?? "" });
+	for (const { path, source, data } of posts) {
+		if (readFileSync(path, "utf8") !== source) {
+			throw new Error(`${path} has uncommitted changes. Publish from the committed version.`);
+		}
+		if (!data.bufferMode || !data.bufferChannels) {
+			throw new Error(`Choose a bufferMode and bufferChannels for ${path} before publishing.`);
+		}
+	}
+	return posts;
 }

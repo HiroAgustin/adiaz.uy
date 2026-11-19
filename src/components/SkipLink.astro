@@ -1,0 +1,19 @@
+<a class="skip-link" href="#content">
+	Skip to content
+</a>
+
+<style>
+	.skip-link {
+		position: fixed;
+		inset-block-start: 1rem;
+		inset-inline-start: 1rem;
+		z-index: 1;
+		padding: 0.5rem 1rem;
+		border: 1px solid currentColor;
+		background-color: var(--background);
+	}
+
+	.skip-link:not(:focus) {
+		clip-path: inset(50%);
+	}
+</style>

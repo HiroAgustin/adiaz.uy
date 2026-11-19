@@ -8,62 +8,62 @@ import tailwindcss from "@tailwindcss/vite";
 const site = "https://adiaz.uy";
 
 export default defineConfig({
-  site,
+	site,
 
-  fonts: [
-    {
-      provider: fontProviders.google(),
-      name: "Atkinson Hyperlegible",
-      cssVariable: "--font-body",
-      display: "optional",
-      weights: [400, 700],
-      styles: ["normal", "italic"],
-      subsets: ["latin"],
-    },
-    {
-      provider: fontProviders.google(),
-      name: "Merienda",
-      cssVariable: "--font-heading",
-      display: "optional",
-      weights: [400, 500, 600],
-      styles: ["normal"],
-      subsets: ["latin"],
-    },
-  ],
+	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: "Atkinson Hyperlegible",
+			cssVariable: "--font-body",
+			display: "optional",
+			weights: [400, 700],
+			styles: ["normal", "italic"],
+			subsets: ["latin"],
+		},
+		{
+			provider: fontProviders.google(),
+			name: "Merienda",
+			cssVariable: "--font-heading",
+			display: "optional",
+			weights: [400, 500, 600],
+			styles: ["normal"],
+			subsets: ["latin"],
+		},
+	],
 
-  integrations: [
-    {
-      name: "check-publishing-choices",
-      hooks: {
-        "astro:config:setup": ({ command }) => {
-          if (command === "build" && process.env.BUFFER_PUBLISH === "true") {
-            getPublishingPosts();
-          }
-        },
-      },
-    },
-    buffalo({
-      posts: new URL("./src/buffer-posts.ts", import.meta.url),
-      contentDirectory: "src/content/blog",
-    }),
-    sitemap({
-      customPages: [new URL("/Resume.pdf", site).href],
-    }),
-  ],
+	integrations: [
+		{
+			name: "check-publishing-choices",
+			hooks: {
+				"astro:config:setup": ({ command }) => {
+					if (command === "build" && process.env.BUFFER_PUBLISH === "true") {
+						getPublishingPosts();
+					}
+				},
+			},
+		},
+		buffalo({
+			posts: new URL("./src/buffer-posts.ts", import.meta.url),
+			contentDirectory: "src/content/blog",
+		}),
+		sitemap({
+			customPages: [new URL("/Resume.pdf", site).href],
+		}),
+	],
 
-  trailingSlash: "always",
+	trailingSlash: "always",
 
-  build: {
-    format: "directory",
-  },
+	build: {
+		format: "directory",
+	},
 
-  markdown: {
-    shikiConfig: {
-      theme: "dark-plus",
-    },
-  },
+	markdown: {
+		shikiConfig: {
+			theme: "dark-plus",
+		},
+	},
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
+	vite: {
+		plugins: [tailwindcss()],
+	},
 });
