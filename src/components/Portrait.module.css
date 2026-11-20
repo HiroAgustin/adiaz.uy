@@ -28,27 +28,27 @@
 		}
 
 		.frame:has(> .tiltGrid > :nth-child(-n + 3):hover) {
-			--tilt-x: -12deg;
+			--tilt-x: 12deg;
 			--shine-y: 90%;
 		}
 
 		.frame:has(> .tiltGrid > :nth-child(n + 7):hover) {
-			--tilt-x: 12deg;
+			--tilt-x: -12deg;
 			--shine-y: 10%;
 		}
 
 		.frame:has(> .tiltGrid > :nth-child(3n + 1):hover) {
-			--tilt-y: 12deg;
+			--tilt-y: -12deg;
 			--shine-x: 90%;
 		}
 
 		.frame:has(> .tiltGrid > :nth-child(3n):hover) {
-			--tilt-y: -12deg;
+			--tilt-y: 12deg;
 			--shine-x: 10%;
 		}
 
 		.frame:has(> .tiltGrid > :nth-child(5):hover) {
-			--tilt-x: 3deg;
+			--tilt-x: -3deg;
 		}
 
 		@media (forced-colors: none) {
