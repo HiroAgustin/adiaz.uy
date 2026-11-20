@@ -25,7 +25,15 @@ const posts = Array.from(featuredPosts.keys(), (id) => {
 						Díaz
 					</h1>
 					<p class={styles.location}>
-						<span class={styles.role}>Design Engineer</span>
+						<span class="sr-only">Design Engineer</span>
+						<span class={styles.role} aria-hidden="true">
+							<span class={styles.roleReel}>
+								<span>Design</span>
+								<span>Frontend</span>
+								<span>Product</span>
+							</span>
+							Engineer
+						</span>
 					</p>
 				</div>
 				<Portrait

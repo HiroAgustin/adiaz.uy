@@ -16,18 +16,19 @@ const { size, height = size, alt, class: className, fetchpriority, responsive } 
 ---
 
 <div class:list={[styles.frame, className]}>
-	<Image
-		class={styles.portrait}
-		src={avatar}
-		alt={alt}
-		width={size}
-		height={height}
-		{...(responsive ?? { densities: [1, 2] })}
-		format="webp"
-		fit="cover"
-		loading="eager"
-		fetchpriority={fetchpriority}
-	/>
+	<div class={styles.portrait}>
+		<Image
+			src={avatar}
+			alt={alt}
+			width={size}
+			height={height}
+			{...(responsive ?? { densities: [1, 2] })}
+			format="webp"
+			fit="cover"
+			loading="eager"
+			fetchpriority={fetchpriority}
+		/>
+	</div>
 	<div class={styles.tiltGrid} aria-hidden="true">
 		{Array.from({ length: 9 }, () => (
 			<span />
