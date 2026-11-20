@@ -130,7 +130,38 @@
 }
 
 @media (max-width: 31rem) {
+	.list {
+		--post-link-inset: 0.5rem;
+	}
+
 	.link {
 		grid-template-columns: minmax(0, 1fr);
+		min-block-size: 2.75rem;
+		padding-block: 0.625rem;
+	}
+
+	.title {
+		overflow-wrap: anywhere;
+	}
+
+	.plain > li + li {
+		background: linear-gradient(var(--border), var(--border)) center top /
+			calc(100% - 2 * var(--post-link-inset)) 1px no-repeat;
+	}
+
+	.plain .link {
+		padding-block: 0.875rem;
+	}
+
+	.plain > li:first-child > .link {
+		padding-block-start: 0.25rem;
+	}
+
+	.plain > li:last-child > .link {
+		padding-block-end: 0.25rem;
+	}
+
+	.summary {
+		margin-block-start: 0.125rem;
 	}
 }

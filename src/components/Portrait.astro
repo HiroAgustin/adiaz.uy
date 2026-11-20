@@ -28,4 +28,9 @@ const { size, height = size, alt, class: className, fetchpriority, responsive } 
 		loading="eager"
 		fetchpriority={fetchpriority}
 	/>
+	<div class={styles.tiltGrid} aria-hidden="true">
+		{Array.from({ length: 9 }, () => (
+			<span />
+		))}
+	</div>
 </div>

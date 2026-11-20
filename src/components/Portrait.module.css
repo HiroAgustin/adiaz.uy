@@ -1,5 +1,48 @@
 .frame {
+	position: relative;
 	flex: none;
+}
+
+.tiltGrid {
+	display: none;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+	@supports selector(:has(*)) {
+		.tiltGrid {
+			position: absolute;
+			z-index: 1;
+			inset: 0;
+			display: grid;
+			grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+		}
+
+		/* Keep the 3D tilt separate from the portrait's idle rotate animation. */
+		.portrait {
+			transform: perspective(28rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+			transition: transform 280ms var(--ease-settle);
+		}
+
+		.frame:has(> .tiltGrid > :nth-child(-n + 3):hover) {
+			--tilt-x: -12deg;
+		}
+
+		.frame:has(> .tiltGrid > :nth-child(n + 7):hover) {
+			--tilt-x: 12deg;
+		}
+
+		.frame:has(> .tiltGrid > :nth-child(3n + 1):hover) {
+			--tilt-y: 12deg;
+		}
+
+		.frame:has(> .tiltGrid > :nth-child(3n):hover) {
+			--tilt-y: -12deg;
+		}
+
+		.frame:has(> .tiltGrid > :nth-child(5):hover) {
+			--tilt-x: 3deg;
+		}
+	}
 }
 
 .portrait {

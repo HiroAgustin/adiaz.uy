@@ -17,8 +17,13 @@
 	@media (forced-colors: none) {
 		border-color: transparent;
 		background:
-			linear-gradient(var(--surface), var(--background) 14rem) padding-box,
-			linear-gradient(in oklab, var(--color-zinc-600), var(--border) 14rem, transparent 55%)
+			linear-gradient(var(--surface), var(--background) var(--panel-fade-depth, 14rem)) padding-box,
+			linear-gradient(
+					in oklab,
+					var(--color-zinc-600),
+					var(--border) var(--panel-fade-depth, 14rem),
+					transparent 55%
+				)
 				border-box;
 
 		@supports (mask-image: linear-gradient(black, transparent)) {
@@ -30,15 +35,33 @@
 				position: absolute;
 				z-index: -1;
 				inset: 0 0 auto;
-				block-size: 15rem;
+				block-size: var(--panel-texture-depth, 15rem);
 				border-radius: inherit;
 				corner-shape: inherit;
 				background: url("../assets/crumpled-fade.svg") center / cover no-repeat;
 				mix-blend-mode: screen;
-				opacity: 0.3;
+				opacity: var(--panel-texture-opacity, 0.3);
 				mask-image: linear-gradient(to bottom, black, transparent 95%);
 				pointer-events: none;
 			}
+		}
+	}
+
+	@media (max-width: 31rem) {
+		--panel-bleed: 0.375rem;
+		--panel-fade-depth: 10rem;
+		--panel-texture-depth: 11rem;
+		--panel-texture-opacity: 0.2;
+		padding: 1.125rem 1rem 0.75rem;
+		border-radius: 1.125rem 1.125rem 0 0;
+
+		@supports (corner-shape: squircle) {
+			border-radius: 2rem 2rem 0 0;
+		}
+
+		header {
+			--heading-gap: 0.625rem;
+			margin-block-end: 1rem;
 		}
 	}
 }
