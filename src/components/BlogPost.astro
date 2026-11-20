@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { formatDate } from "../lib/posts";
+import { featuredPosts, formatDate, postTransitionName } from "../lib/posts";
 import styles from "./BlogPost.module.css";
 import content from "../styles/Content.module.css";
 import metadata from "../styles/Metadata.module.css";
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
+const featured = featuredPosts.has(post.id);
 ---
 
 <article class:list={[content.page, "mx-auto"]}>
@@ -20,14 +21,18 @@ const { post } = Astro.props;
 		>
 			{formatDate(post.data.pubDate)}
 		</time>
-		<h1 class="heading-outline">{post.data.title}</h1>
+		<h1
+			class="heading-outline"
+			data-transition={featured ? "post-title" : undefined}
+			style={{
+				"--post-title-transition": featured ? postTransitionName(post.id, "title") : undefined,
+			}}
+		>
+			{post.data.title}
+		</h1>
 	</header>
 
 	<div class:list={[content.prose, styles.body]}>
 		<slot />
 	</div>
-
-	<a class:list={[styles.backLink, metadata.label, "inline-flex items-center"]} href="/archive/">
-		Back to writings
-	</a>
 </article>

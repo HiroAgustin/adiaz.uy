@@ -24,7 +24,9 @@ const posts = Array.from(featuredPosts.keys(), (id) => {
 						</span>{" "}
 						Díaz
 					</h1>
-					<p class={styles.location}>Design Engineer @ Montevideo, Uruguay</p>
+					<p class={styles.location}>
+						<span class={styles.role}>Design Engineer</span>
+					</p>
 				</div>
 				<Portrait
 					class={styles.avatar}
@@ -37,21 +39,23 @@ const posts = Array.from(featuredPosts.keys(), (id) => {
 					}}
 				/>
 			</div>
-			<p>I like building design systems and seeing what the browser can do on its own.</p>
+			<p>
+				I like building design systems and accessible interfaces for complex products. I still enjoy
+				seeing what the browser can do on its own.
+			</p>
 			<p>
 				I’ve worked on the web for over 17 years, including more than five with React and
-				TypeScript.
+				TypeScript. At GitHub, I build interfaces for security products and recently migrated the
+				Dependabot alert list from Rails to React, including filters, sorting, pagination, and bulk
+				actions.
 			</p>
 		</section>
 
-		<section class="grid gap-3" aria-labelledby="writing-title">
+		<section class:list={[styles.writings, "grid gap-3"]} aria-labelledby="writing-title">
 			<h2 id="writing-title" data-transition="writing-title">
-				Writing
+				Writings
 			</h2>
 			<PostList posts={posts} variant="plain" showSummaries />
-			<p class={styles.archiveLink} style={{ "--last-post-index": posts.length - 1 }}>
-				<a href="/archive/">All my writings</a>
-			</p>
 		</section>
 	</div>
 </SiteLayout>

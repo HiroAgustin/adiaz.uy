@@ -24,19 +24,50 @@ const writingSection = Astro.props.writingSection;
 		<span aria-hidden="true">⊹</span> {siteMetadata.title}
 	</a>
 	<nav aria-label="Primary">
-		<ul class={styles.nav} role="list">
-			{links.map(({ href, title, key }) => (
-				<li class={styles[key]}>
-					<a
-						href={href}
-						aria-current={
-							path === href ? "page" : key === "writing" && writingSection ? "true" : undefined
-						}
-					>
-						{title}
-					</a>
-				</li>
-			))}
+		<ul class={styles.nav} role="list" data-nav-hover>
+			{links.map(({ href, title, key }) => {
+				const current =
+					path === href ? "page" : key === "writing" && writingSection ? "true" : undefined;
+
+				return (
+					<li class={styles[key]}>
+						<a href={href} aria-current={current} data-nav-anchor={`--nav-${key}`}>
+							{title}
+						</a>
+						{current && <span class={styles.currentUnderline} aria-hidden="true" />}
+					</li>
+				);
+			})}
 		</ul>
 	</nav>
 </header>
+
+<script>
+	const nav = document.querySelector<HTMLElement>("[data-nav-hover]");
+
+	if (nav && CSS.supports("left: anchor(left)") && CSS.supports("anchor-scope: --nav-home")) {
+		nav.addEventListener("pointerover", (event) => {
+			if (event.pointerType === "touch" || !(event.target instanceof Element)) return;
+			const link = event.target.closest<HTMLElement>("[data-nav-anchor]");
+			const anchor = link?.dataset.navAnchor;
+			if (!anchor) return;
+
+			nav.toggleAttribute("data-hover-sliding", nav.hasAttribute("data-hover-active"));
+			nav.style.removeProperty("--nav-exit-start");
+			nav.style.removeProperty("--nav-exit-end");
+			nav.style.setProperty("--nav-target", anchor);
+			nav.setAttribute("data-hover-active", "");
+		});
+
+		nav.addEventListener("pointerleave", (event) => {
+			if (event.pointerType === "touch" || !nav.hasAttribute("data-hover-active")) return;
+
+			// Freeze the visible position even if the pointer leaves mid-slide.
+			const { insetInlineStart, insetInlineEnd } = getComputedStyle(nav, "::after");
+			nav.style.setProperty("--nav-exit-start", insetInlineStart);
+			nav.style.setProperty("--nav-exit-end", insetInlineEnd);
+			nav.removeAttribute("data-hover-sliding");
+			nav.removeAttribute("data-hover-active");
+		});
+	}
+</script>

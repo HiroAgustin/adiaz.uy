@@ -8,7 +8,8 @@
 	border-radius: var(--portrait-radius, 30%);
 	corner-shape: squircle;
 	background: var(--surface);
-	rotate: var(--portrait-tilt, 3deg);
+	rotate: 0deg;
+	transform-origin: 32% 75%;
 }
 
 @supports (corner-shape: squircle) {
@@ -21,6 +22,20 @@
 	.portrait {
 		view-transition-name: portrait;
 		view-transition-class: shared-content;
+		animation: portrait-settle 5s var(--ease-glide) 2s both;
+	}
+
+	@supports (rotate: calc(random(5deg, 9deg) * (2 * round(random(0, 1), 1) - 1))) {
+		.portrait {
+			/* Pick the direction separately so the tilt never starts near zero. */
+			--portrait-tilt: calc(random(5deg, 9deg) * (2 * round(random(0, 1), 1) - 1));
+		}
+	}
+
+	@supports (transform-origin: random(25%, 45%) random(60%, 85%)) {
+		.portrait {
+			transform-origin: random(25%, 45%) random(60%, 85%);
+		}
 	}
 
 	/* Stretch both crops into the same interpolated frame. */
@@ -31,12 +46,14 @@
 	}
 }
 
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-	.portrait {
-		transition: rotate 400ms var(--ease-out);
+@keyframes portrait-settle {
+	from,
+	to {
+		rotate: var(--portrait-tilt, 6deg);
 	}
 
-	.frame:hover .portrait {
+	56%,
+	86% {
 		rotate: 0deg;
 	}
 }

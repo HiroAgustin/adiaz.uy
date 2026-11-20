@@ -15,6 +15,9 @@
 		--accent: var(--color-blue-600);
 		--link: var(--color-blue-300);
 		--on-accent: var(--color-zinc-950);
+		--rainbow-stops:
+			var(--color-red-300), var(--color-yellow-300), var(--color-green-300), var(--color-cyan-300),
+			var(--color-violet-300), var(--color-red-300);
 		--gutter: clamp(1rem, 5vw, 3rem);
 		--site-width: 70rem;
 		--page-space: clamp(3rem, 8vw, 6rem);
@@ -67,12 +70,7 @@
 				&::before {
 					--focus-rainbow: conic-gradient(
 						from var(--focus-angle, 25deg) in oklab,
-						var(--color-red-300),
-						var(--color-yellow-300),
-						var(--color-green-300),
-						var(--color-cyan-300),
-						var(--color-violet-300),
-						var(--color-red-300)
+						var(--rainbow-stops)
 					);
 
 					content: "";
@@ -154,8 +152,13 @@
 	}
 
 	::selection {
-		background: var(--link);
+		background-color: var(--color-orange-300);
 		color: var(--on-accent);
+		text-shadow: 1px 1px var(--color-orange-100);
+	}
+
+	:where(h1, h2, h3, h4)::selection {
+		background-color: var(--color-amber-200);
 	}
 }
 
@@ -169,6 +172,12 @@
 		/* Size the snapshot to the lettering, not the full column. */
 		inline-size: fit-content;
 		view-transition-name: writing-title;
+		view-transition-class: shared-content;
+	}
+
+	[data-transition="post-title"] {
+		inline-size: fit-content;
+		view-transition-name: var(--post-title-transition);
 		view-transition-class: shared-content;
 	}
 
@@ -216,6 +225,12 @@
 }
 
 @media (forced-colors: active) {
+	::selection {
+		background-color: Highlight;
+		color: HighlightText;
+		text-shadow: none;
+	}
+
 	:root {
 		--accent: ButtonFace;
 		--link: LinkText;

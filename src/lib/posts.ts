@@ -9,6 +9,9 @@ export const featuredPosts = new Map([
 	["chips", "I couldn't find poker chips I liked, so I drew my own with a few SVG circles."],
 ]);
 
+export const postTransitionName = (id: string, part: "row" | "title") =>
+	`post-${part}-${id.replace(/[^a-z0-9-]/gi, (character) => `\\${character.codePointAt(0)!.toString(16)} `)}`;
+
 export async function getPosts() {
 	const posts = await getCollection("blog", ({ data }) => import.meta.env.DEV || !data.draft);
 	return posts.sort(

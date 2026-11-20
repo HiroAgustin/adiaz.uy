@@ -4,7 +4,7 @@
 	align-items: end;
 	flex-wrap: wrap;
 	gap: 1rem 2rem;
-	padding-block: 1.5rem 2rem;
+	padding-block: 2.25rem 2rem;
 	border-block-start: 1px solid var(--border);
 }
 
@@ -17,12 +17,49 @@
 	text-decoration: none;
 }
 
-.email:hover {
-	text-decoration: underline;
+@media (hover: hover) {
+	.email:hover {
+		color: var(--link);
+
+		@media (forced-colors: none) {
+			@supports (background-clip: text) and
+				(background-image: linear-gradient(to right in oklab, red, blue)) {
+				color: transparent;
+				background-color: var(--heading);
+				background-image: linear-gradient(to right in oklab, var(--rainbow-stops));
+				background-clip: text;
+
+				@media (prefers-reduced-motion: no-preference) {
+					background-size: 200% 100%;
+					background-repeat: repeat-x;
+					animation: email-rainbow 3s linear infinite;
+				}
+			}
+		}
+	}
+}
+
+@keyframes email-rainbow {
+	from {
+		background-position-x: 100%;
+	}
+
+	to {
+		background-position-x: -100%;
+	}
 }
 
 .links a {
 	min-block-size: 2.75rem;
 	color: var(--text);
-	font-size: 0.875rem;
+	font-size: 0.8125rem;
+}
+
+.socialLink {
+	gap: 0.35rem;
+}
+
+.socialLink svg {
+	flex: none;
+	pointer-events: none;
 }

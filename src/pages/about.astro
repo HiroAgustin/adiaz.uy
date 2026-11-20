@@ -3,6 +3,7 @@ import Portrait from "../components/Portrait.astro";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import styles from "./About.module.css";
 import content from "../styles/Content.module.css";
+import linkStyles from "../styles/LinkUnderline.module.css";
 ---
 
 <SiteLayout
@@ -44,15 +45,20 @@ import content from "../styles/Content.module.css";
 				either way: shipping interfaces that feel good to use, down to the little details.
 			</p>
 			<p>
-				Attending the <a href="https://www.recurse.com/">Recurse Center</a> made me a better
-				programmer. It’s also where I met some of the kindest people I know.
+				Attending the{" "}
+				<a class={linkStyles.underline} href="https://www.recurse.com/">
+					Recurse Center
+				</a>{" "}
+				made me a better programmer. It’s also where I met some of the kindest people I know.
 			</p>
 			<h2>Outside work</h2>
 			<p>
 				My kid keeps me busy. When I get some time to myself, I like to read or play video and board
 				games. The Hiro in <em>HiroAgustin</em> is my gaming moniker, borrowed from{" "}
-				<a href="https://en.wikipedia.org/wiki/Hiro_Nakamura">Hiro Nakamura</a>, the space-time
-				bending programmer samurai.
+				<a class={linkStyles.underline} href="https://en.wikipedia.org/wiki/Hiro_Nakamura">
+					Hiro Nakamura
+				</a>
+				, the space-time bending programmer samurai.
 			</p>
 		</div>
 	</article>

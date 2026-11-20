@@ -1,13 +1,15 @@
 .header {
 	--divider-width: 1px;
+	--header-padding: 0.875rem;
 	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 0.5rem 1rem;
-	padding-block: 0.875rem;
+	padding-block: var(--header-padding);
 	flex-wrap: wrap;
 	border-block-end: var(--divider-width) solid var(--border);
+	margin-block-end: 0.25rem;
 }
 
 .wordmark {
@@ -25,118 +27,132 @@
 }
 
 .nav {
+	--nav-highlight: rgb(255 255 255 / 10%);
+	--nav-spacing: clamp(0rem, 0.5vw, 0.25rem);
+	position: relative;
+	isolation: isolate;
 	display: flex;
-	gap: clamp(0rem, 1vw, 0.5rem);
+}
+
+.nav li {
+	position: relative;
 }
 
 .nav a {
 	display: block;
-	padding: 0.625rem clamp(0.5rem, 2vw, 0.875rem);
+	padding: 0.625rem calc(clamp(0.5rem, 2vw, 0.875rem) + var(--nav-spacing));
 	color: var(--subtle);
 	font-size: 0.9375rem;
 	text-decoration: none;
-	text-underline-offset: 0.45em;
 }
 
 .nav a:is([aria-current], :hover, :focus-visible) {
 	color: var(--heading);
-	text-decoration-line: underline;
-	text-decoration-color: var(--link);
 }
 
-@supports (left: anchor(left)) and (anchor-scope: --nav-home) {
-	.nav {
-		anchor-scope: --nav-home, --nav-about, --nav-writing;
+@media (hover: hover) {
+	.nav a:hover {
+		border-radius: 0.5rem;
+		background: var(--nav-highlight);
 	}
+}
 
-	.home {
-		anchor-name: --nav-home;
-	}
+.currentUnderline {
+	position: absolute;
+	inset-block-end: calc(-1 * (var(--header-padding) + var(--divider-width)));
+	inset-inline: 0.5rem;
+	border-block-end: 2px solid var(--link);
+	pointer-events: none;
+}
 
-	.about {
-		anchor-name: --nav-about;
-	}
-
-	.writing {
-		anchor-name: --nav-writing;
-	}
-
-	.nav:has(.home a[aria-current]) {
-		--nav-target: --nav-home;
-	}
-
-	.nav:has(.about a[aria-current]) {
-		--nav-target: --nav-about;
-	}
-
-	.nav:has(.writing a[aria-current]) {
-		--nav-target: --nav-writing;
-	}
-
-	@media (hover: hover) {
-		.nav:has(.home a:hover) {
-			--nav-target: --nav-home;
+@media (hover: hover) {
+	@supports (left: anchor(left)) and (anchor-scope: --nav-home) {
+		.nav {
+			anchor-scope: --nav-home, --nav-about, --nav-writing;
 		}
 
-		.nav:has(.about a:hover) {
-			--nav-target: --nav-about;
+		.home {
+			anchor-name: --nav-home;
 		}
 
-		.nav:has(.writing a:hover) {
-			--nav-target: --nav-writing;
+		.about {
+			anchor-name: --nav-about;
 		}
-	}
 
-	/* Focus takes priority over the hover and current-page anchors. */
-	.nav:has(.home a:focus-visible) {
-		--nav-target: --nav-home;
-	}
+		.writing {
+			anchor-name: --nav-writing;
+		}
 
-	.nav:has(.about a:focus-visible) {
-		--nav-target: --nav-about;
-	}
+		.nav::after {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			position-anchor: var(--nav-target);
+			inset-block: 0;
+			inset-inline-start: var(--nav-exit-start, calc(anchor(start) + var(--nav-spacing)));
+			inset-inline-end: var(--nav-exit-end, calc(anchor(end) + var(--nav-spacing)));
+			border-radius: 0.5rem;
+			background: var(--nav-highlight);
+			pointer-events: none;
+			opacity: 0;
+		}
 
-	.nav:has(.writing a:focus-visible) {
-		--nav-target: --nav-writing;
-	}
-
-	.nav::before {
-		content: "";
-		position: absolute;
-		inset-block-end: calc(-1 * var(--divider-width));
-		inset-inline-start: calc(anchor(var(--nav-target, --nav-home) start) + 0.5rem);
-		inset-inline-end: calc(anchor(var(--nav-target, --nav-home) end) + 0.5rem);
-		border-block-end: 2px solid var(--link);
-		pointer-events: none;
-		opacity: 0;
-	}
-
-	.nav:has(a:is([aria-current], :focus-visible))::before {
-		opacity: 1;
-	}
-
-	@media (hover: hover) {
-		.nav:has(a:hover)::before {
+		.nav[data-hover-active]::after {
 			opacity: 1;
 		}
-	}
 
-	.nav a:is([aria-current], :focus-visible) {
-		text-decoration-line: none;
-	}
+		.nav[data-hover-active] a:hover {
+			background: transparent;
+		}
 
-	@media (hover: hover) {
-		.nav a:hover {
-			text-decoration-line: none;
+		@media (prefers-reduced-motion: no-preference) {
+			.nav::after {
+				transition: opacity 280ms ease-out;
+			}
+
+			.nav[data-hover-sliding]::after {
+				transition:
+					inset-inline-start 320ms var(--ease-glide),
+					inset-inline-end 380ms var(--ease-out),
+					opacity 280ms ease-out;
+			}
+
+			@supports (corner-shape: squircle) {
+				.nav a:hover,
+				.nav::after {
+					border-radius: 50%;
+					corner-shape: squircle;
+				}
+			}
 		}
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.nav::before {
-		transition:
-			inset-inline-start 320ms var(--ease-glide),
-			inset-inline-end 380ms var(--ease-out),
-			opacity 140ms ease-out;
+	.currentUnderline {
+		view-transition-name: nav-current-underline;
+		view-transition-class: shared-content;
+	}
+
+	:root::view-transition-group(nav-current-underline) {
+		animation-duration: 520ms;
+		animation-timing-function: cubic-bezier(0.22, 0.8, 0.32, 1.2);
+		animation-timing-function: linear(
+			0,
+			0.12 10%,
+			0.38 20%,
+			0.71 32%,
+			0.96 44%,
+			1.08 57%,
+			1.06 66%,
+			1.01 79%,
+			0.99 89%,
+			1
+		);
+	}
+
+	::view-transition-old(nav-current-underline),
+	::view-transition-new(nav-current-underline) {
+		block-size: 100%;
 	}
 }

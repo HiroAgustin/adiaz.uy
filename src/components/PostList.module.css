@@ -25,6 +25,25 @@
 	padding-block: 0.625rem;
 }
 
+.plain .title {
+	font-family: var(--font-heading, system-ui);
+	font-size: 1.1875rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+@media (hover: hover) {
+	.plain:has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) {
+		opacity: 0.5;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.plain .link {
+			transition: opacity 180ms ease-out;
+		}
+	}
+}
+
 .summary {
 	grid-column: 1 / -1;
 	color: var(--text);
