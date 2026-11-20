@@ -22,7 +22,6 @@ const featured = featuredPosts.has(post.id);
 			{formatDate(post.data.pubDate)}
 		</time>
 		<h1
-			class="heading-outline"
 			data-transition={featured ? "post-title" : undefined}
 			style={{
 				"--post-title-transition": featured ? postTransitionName(post.id, "title") : undefined,

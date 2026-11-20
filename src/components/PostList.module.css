@@ -25,21 +25,62 @@
 	padding-block: 0.625rem;
 }
 
-.plain .title {
+.title {
 	font-family: var(--font-heading, system-ui);
 	font-size: 1.1875rem;
 	font-weight: 600;
 	line-height: 1.4;
 }
 
-@media (hover: hover) {
-	.plain:has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) {
-		opacity: 0.5;
+.list:not(.plain) .date {
+	color: color-mix(in oklab, var(--subtle) 90%, var(--background));
+	letter-spacing: 0.015em;
+}
+
+@media (hover: hover) and (forced-colors: none) {
+	.plain {
+		--post-sibling-opacity: 0.5;
+	}
+
+	.list:has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) {
+		opacity: var(--post-sibling-opacity, 0.7);
+	}
+
+	.list:not(.plain) .link:not(:focus-visible) {
+		border-radius: 0.75rem;
+	}
+
+	.list:not(.plain) .link:hover {
+		background-color: color-mix(in oklab, var(--color-zinc-100) 8%, transparent);
+	}
+
+	.list:not(.plain):has(> li:first-child > .link:hover)::before,
+	.list:not(.plain) > li:has(> .link:hover, + li > .link:hover)::after {
+		border-block-start-color: transparent;
+	}
+
+	.list:not(.plain):has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) time {
+		color: var(--text);
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		.plain .link {
+		.link {
 			transition: opacity 180ms ease-out;
+		}
+
+		.list:not(.plain) .link {
+			transition:
+				opacity 180ms ease-out,
+				background-color 180ms ease-out;
+		}
+
+		.list:not(.plain) time {
+			transition: color 180ms ease-out;
+		}
+
+		.list:not(.plain)::before,
+		.list:not(.plain) > li::after {
+			transition: border-block-start-color 180ms ease-out;
 		}
 	}
 }

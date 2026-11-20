@@ -2,6 +2,7 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import PostList from "../components/PostList.astro";
 import { getPosts } from "../lib/posts";
+import styles from "./Archive.module.css";
 import content from "../styles/Content.module.css";
 import metadata from "../styles/Metadata.module.css";
 
@@ -10,16 +11,18 @@ const posts = await getPosts();
 
 <SiteLayout
 	type="CollectionPage"
-	title="Writing"
+	title="Writings"
 	description="Browse all articles by Agustín Díaz on web development, frontend engineering, CSS, JavaScript, and design."
 	items={posts.map((post) => ({ name: post.data.title, url: `/${post.id}/` }))}
 >
-	<section class:list={[content.page, "mx-auto"]}>
-		<header class={content.heading}>
-			<p class:list={[metadata.label, metadata.eyebrow]}>The archive</p>
-			<h1 data-transition="writing-title">Writing</h1>
-			<p class={content.intro}>Notes on CSS, JavaScript, and building for the web.</p>
-		</header>
-		<PostList posts={posts} />
-	</section>
+	<div class:list={[content.page, "mx-auto"]}>
+		<section class={styles.panel} data-transition="writings-panel">
+			<header class={content.heading}>
+				<p class:list={[metadata.label, metadata.eyebrow]}>The archive</p>
+				<h1 data-transition="writing-title">Writings</h1>
+				<p class={content.intro}>Notes on CSS, JavaScript, and building for the web.</p>
+			</header>
+			<PostList posts={posts} />
+		</section>
+	</div>
 </SiteLayout>

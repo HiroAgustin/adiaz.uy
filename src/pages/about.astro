@@ -13,13 +13,24 @@ import linkStyles from "../styles/LinkUnderline.module.css";
 >
 	<article class:list={[content.page, "mx-auto"]}>
 		<header class:list={[content.heading, styles.heading]}>
-			<div class={content.prose}>
-				<h1>
-					Hi, I’m{" "}
-					<span class="heading-outline" data-transition="first-name">
-						Agustín
-					</span>
-				</h1>
+			<h1>
+				Hi, I’m{" "}
+				<span class="heading-outline" data-transition="first-name">
+					Agustín
+				</span>
+			</h1>
+			<Portrait
+				class={styles.portrait}
+				size={224}
+				height={280}
+				alt="Agustín Díaz"
+				fetchpriority="high"
+				responsive={{
+					widths: [96, 192, 224, 448],
+					sizes: "(min-width: 42rem) 14rem, clamp(3.5rem, 22vw, 6rem)",
+				}}
+			/>
+			<div class:list={[content.prose, styles.bio]}>
 				<p class={content.intro}>
 					I’ve been building for the web since 2009 and I’m currently a design engineer at{" "}
 					<strong>GitHub</strong>.
@@ -29,13 +40,6 @@ import linkStyles from "../styles/LinkUnderline.module.css";
 					then giving it a home in the design system so the next person doesn’t have to start over.
 				</p>
 			</div>
-			<Portrait
-				class={styles.portrait}
-				size={224}
-				height={280}
-				alt="Agustín Díaz"
-				fetchpriority="high"
-			/>
 		</header>
 		<div class={content.prose}>
 			<p>

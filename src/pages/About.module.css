@@ -1,21 +1,35 @@
 .heading {
-	--heading-gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
-	align-items: start;
+	--portrait-width: clamp(3.5rem, 22vw, 6rem);
+	--heading-gap: 1.25rem 0.875rem;
+	grid-template-columns: minmax(0, 1fr) var(--portrait-width);
+	align-items: center;
 }
 
 .portrait {
 	--portrait-radius: 20%;
-	inline-size: min(100%, 14rem);
+}
+
+.bio {
+	grid-column: 1 / -1;
 }
 
 @media (min-width: 42rem) {
 	.heading {
-		grid-template-columns: minmax(0, 1fr) 14rem;
+		--portrait-width: 14rem;
+		--heading-gap: 1.25rem clamp(1.5rem, 4vw, 3rem);
+		grid-template-rows: auto 1fr;
+		align-items: start;
 	}
 
 	.portrait {
+		grid-column: 2;
+		grid-row: 1 / span 2;
 		align-self: end;
 		margin-block-start: 0.75rem;
+	}
+
+	.bio {
+		grid-column: 1;
 	}
 
 	.heading h1 {

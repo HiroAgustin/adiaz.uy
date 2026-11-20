@@ -1,10 +1,14 @@
-.body > p:nth-of-type(1)::first-letter {
-	color: var(--link);
-	font-family: var(--font-heading, system-ui);
-	font-size: 1.8em;
-	font-weight: 600;
-	line-height: 1;
-	margin-inline-end: 0.06em;
+.body > p:first-of-type::first-letter {
+	--outline-color: color-mix(in oklab, var(--link) 55%, var(--background));
+	color: var(--heading);
+	font-size: 1.5em;
+	font-weight: 500;
+	text-shadow:
+		1.5px 1.5px var(--background),
+		1px 1px var(--outline-color),
+		2px 1px var(--outline-color),
+		1px 2px var(--outline-color),
+		2px 2px var(--outline-color);
 }
 
 .body blockquote {

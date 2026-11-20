@@ -51,9 +51,13 @@ const posts = Array.from(featuredPosts.keys(), (id) => {
 			</p>
 		</section>
 
-		<section class:list={[styles.writings, "grid gap-3"]} aria-labelledby="writing-title">
+		<section
+			class:list={[styles.writings, "grid gap-3"]}
+			aria-labelledby="writing-title"
+			data-transition="writings-panel"
+		>
 			<h2 id="writing-title" data-transition="writing-title">
-				Writings
+				Selected writings
 			</h2>
 			<PostList posts={posts} variant="plain" showSummaries />
 		</section>

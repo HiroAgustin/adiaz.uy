@@ -168,6 +168,11 @@
 		view-transition-name: page;
 	}
 
+	[data-transition="writings-panel"] {
+		view-transition-name: writings-panel;
+		view-transition-class: shared-content;
+	}
+
 	[data-transition="writing-title"] {
 		/* Size the snapshot to the lettering, not the full column. */
 		inline-size: fit-content;

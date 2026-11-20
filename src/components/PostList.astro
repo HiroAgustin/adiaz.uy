@@ -36,7 +36,7 @@ const { posts, variant = "ruled", showSummaries = false } = Astro.props;
 				>
 					{post.data.title}
 				</span>
-				<time class={metadata.label} datetime={post.data.pubDate.toISOString()}>
+				<time class:list={[metadata.label, styles.date]} datetime={post.data.pubDate.toISOString()}>
 					{formatDate(post.data.pubDate)}
 				</time>
 				{showSummaries && <span class={styles.summary}>{featuredPosts.get(post.id)}</span>}
