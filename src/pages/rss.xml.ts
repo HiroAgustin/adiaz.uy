@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
-import { getPosts } from "../lib/posts";
-import { siteMetadata } from "../lib/site";
+import { getPosts } from "../lib/Articles";
+import { siteMetadata } from "../lib/Identity";
 
 export const GET: APIRoute = async ({ site }) => {
 	if (!site) {

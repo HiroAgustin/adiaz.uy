@@ -1,4 +1,4 @@
-.header {
+.Header {
 	--divider-width: 1px;
 	--header-padding: 0.875rem;
 	position: relative;
@@ -92,63 +92,89 @@
 }
 
 @media (hover: hover) {
-	@supports (left: anchor(left)) and (anchor-scope: --nav-home) {
+	.nav {
+		--nav-target: --nav-home;
+		anchor-scope: --nav-home, --nav-about, --nav-writing;
+	}
+
+	.nav:has(.home > a:hover) {
+		--nav-target: --nav-home;
+	}
+
+	.nav:has(.about > a:hover) {
+		--nav-target: --nav-about;
+	}
+
+	.nav:has(.writing > a:hover) {
+		--nav-target: --nav-writing;
+	}
+
+	.home {
+		anchor-name: --nav-home;
+	}
+
+	.about {
+		anchor-name: --nav-about;
+	}
+
+	.writing {
+		anchor-name: --nav-writing;
+	}
+
+	.nav::after {
+		content: "";
+		display: none;
+		position: absolute;
+		z-index: -1;
+		position-anchor: var(--nav-target);
+		inset-block: 0;
+		inset-inline-start: calc(anchor(start) + var(--nav-spacing));
+		inset-inline-end: calc(anchor(end) + var(--nav-spacing));
+		border-radius: 0.5rem;
+		background: var(--nav-highlight);
+		pointer-events: none;
+		opacity: 0;
+	}
+
+	.nav:has(a:hover)::after {
+		display: block;
+		opacity: 1;
+	}
+
+	@supports (position-anchor: --nav-home) {
+		.nav:has(a:hover) a:hover {
+			background: transparent;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
 		.nav {
-			anchor-scope: --nav-home, --nav-about, --nav-writing;
+			transition: --nav-target 0s 280ms allow-discrete;
 		}
 
-		.home {
-			anchor-name: --nav-home;
-		}
-
-		.about {
-			anchor-name: --nav-about;
-		}
-
-		.writing {
-			anchor-name: --nav-writing;
+		.nav:has(a:hover) {
+			transition: none;
 		}
 
 		.nav::after {
-			content: "";
-			position: absolute;
-			z-index: -1;
-			position-anchor: var(--nav-target);
-			inset-block: 0;
-			inset-inline-start: var(--nav-exit-start, calc(anchor(start) + var(--nav-spacing)));
-			inset-inline-end: var(--nav-exit-end, calc(anchor(end) + var(--nav-spacing)));
-			border-radius: 0.5rem;
-			background: var(--nav-highlight);
-			pointer-events: none;
-			opacity: 0;
+			transition:
+				inset-inline-start 320ms var(--ease-glide),
+				inset-inline-end 380ms var(--ease-out),
+				opacity 280ms ease-out,
+				display 280ms allow-discrete;
 		}
 
-		.nav[data-hover-active]::after {
-			opacity: 1;
+		@starting-style {
+			.nav:has(a:hover)::after {
+				opacity: 0;
+			}
 		}
 
-		.nav[data-hover-active] a:hover {
-			background: transparent;
-		}
-
-		@media (prefers-reduced-motion: no-preference) {
+		@supports (corner-shape: squircle) {
+			.nav a:hover,
 			.nav::after {
-				transition: opacity 280ms ease-out;
-			}
-
-			.nav[data-hover-sliding]::after {
-				transition:
-					inset-inline-start 320ms var(--ease-glide),
-					inset-inline-end 380ms var(--ease-out),
-					opacity 280ms ease-out;
-			}
-
-			@supports (corner-shape: squircle) {
-				.nav a:hover,
-				.nav::after {
-					border-radius: 50%;
-					corner-shape: squircle;
-				}
+				border-radius: 50%;
+				corner-shape: squircle;
 			}
 		}
 	}
@@ -157,7 +183,7 @@
 @media (prefers-reduced-motion: no-preference) {
 	.currentUnderline {
 		view-transition-name: nav-current-underline;
-		view-transition-class: shared-content;
+		view-transition-class: sharedContent;
 	}
 
 	:root::view-transition-group(nav-current-underline) {

@@ -1,4 +1,4 @@
-.panel {
+.Archive {
 	--panel-bleed: min(2rem, calc(var(--gutter) - 0.25rem));
 	margin-inline: calc(-1 * var(--panel-bleed));
 	padding-block: clamp(1.5rem, 4vw, 2.5rem);
@@ -26,24 +26,22 @@
 				)
 				border-box;
 
-		@supports (mask-image: linear-gradient(black, transparent)) {
-			position: relative;
-			isolation: isolate;
+		position: relative;
+		isolation: isolate;
 
-			&::before {
-				content: "";
-				position: absolute;
-				z-index: -1;
-				inset: 0 0 auto;
-				block-size: var(--panel-texture-depth, 15rem);
-				border-radius: inherit;
-				corner-shape: inherit;
-				background: url("../assets/crumpled-fade.svg") center / cover no-repeat;
-				mix-blend-mode: screen;
-				opacity: var(--panel-texture-opacity, 0.3);
-				mask-image: linear-gradient(to bottom, black, transparent 95%);
-				pointer-events: none;
-			}
+		&::before {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			inset: 0 0 auto;
+			block-size: var(--panel-texture-depth, 15rem);
+			border-radius: inherit;
+			corner-shape: inherit;
+			background: url("../assets/CrumpledFade.svg") center / cover no-repeat;
+			mix-blend-mode: screen;
+			opacity: var(--panel-texture-opacity, 0.3);
+			mask-image: linear-gradient(to bottom, black, transparent 95%);
+			pointer-events: none;
 		}
 	}
 

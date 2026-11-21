@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Portrait from "../components/Portrait.astro";
+import Posts from "../components/Posts.astro";
+import Outline from "../components/Outline.astro";
+import { featuredPosts, getPosts } from "../lib/Articles";
+import styles from "./Home.module.css";
+
+const postsById = new Map((await getPosts()).map((post) => [post.id, post]));
+const posts = Array.from(featuredPosts.keys(), (id) => {
+	const post = postsById.get(id);
+	if (!post) throw new Error(`Missing featured post: ${id}`);
+	return post;
+});
+---
+
+<Layout type="WebSite" title="Agustín Díaz — Design Engineer">
+	<div class:list={[styles.Home, "mx-auto"]}>
+		<section class:list={[styles.intro, "grid gap-4"]} aria-labelledby="intro-title">
+			<div class={styles.byline}>
+				<div class="min-inline-0">
+					<h1 id="intro-title">
+						<Outline>Agustín</Outline> Díaz
+					</h1>
+					<p class={styles.location}>
+						<span class="sr-only">Design Engineer</span>
+						<span class={styles.role} aria-hidden="true">
+							<span class={styles.roleReel}>
+								<span>Design</span>
+								<span>Frontend</span>
+								<span>Product</span>
+							</span>
+							Engineer
+						</span>
+					</p>
+				</div>
+				<Portrait
+					class={styles.avatar}
+					size={160}
+					height={128}
+					alt=""
+					responsive={{
+						widths: [120, 160, 240, 320, 480],
+						sizes: "(max-width: 24rem) 34vw, (max-width: 29rem) 38vw, 10rem",
+					}}
+				/>
+			</div>
+			<p>
+				I’m a web developer with over 17 years of experience building delightful, accessible, and
+				responsive user experiences.
+			</p>
+		</section>
+
+		<section
+			class:list={[styles.writings, "grid gap-3"]}
+			aria-labelledby="writing-title"
+			data-transition="writings-panel"
+		>
+			<h2 id="writing-title" data-transition="writing-title">
+				Writings
+			</h2>
+			<Posts posts={posts} featured />
+		</section>
+	</div>
+</Layout>

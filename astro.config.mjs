@@ -1,7 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import buffalo from "astro-buffalo";
-import { getPublishingPosts } from "./scripts/buffer-posts.js";
+import { getPublishingPosts } from "./scripts/BufferPosts.js";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -43,7 +43,7 @@ export default defineConfig({
 			},
 		},
 		buffalo({
-			posts: new URL("./src/buffer-posts.ts", import.meta.url),
+			posts: new URL("./src/BufferPosts.ts", import.meta.url),
 			contentDirectory: "src/content/blog",
 		}),
 		sitemap(),

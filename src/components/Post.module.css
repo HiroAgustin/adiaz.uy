@@ -1,4 +1,4 @@
-.body > p:first-of-type::first-letter {
+.Post > p:first-of-type::first-letter {
 	--outline-color: color-mix(in oklab, var(--link) 55%, var(--background));
 	color: var(--heading);
 	font-size: 1.5em;
@@ -11,24 +11,24 @@
 		2px 2px var(--outline-color);
 }
 
-.body blockquote {
+.Post blockquote {
 	padding-inline-start: 1rem;
 	border-inline-start: 2px solid var(--link);
 }
 
-.body code {
+.Post code {
 	font-family: var(--font-mono, monospace);
 	font-size: 0.875em;
 }
 
-.body :not(pre) > code {
+.Post :not(pre) > code {
 	padding: 0.1em 0.25em;
 	border-radius: 0.2rem;
 	background: var(--surface);
 	overflow-wrap: anywhere;
 }
 
-.body pre {
+.Post pre {
 	max-inline-size: 100%;
 	overflow: auto;
 	padding: 1rem;

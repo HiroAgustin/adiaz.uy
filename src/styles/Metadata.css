@@ -1,4 +1,4 @@
-.label {
+.metadataLabel {
 	color: var(--subtle);
 	font-family: var(--font-mono, monospace);
 	font-size: 0.75rem;
@@ -6,6 +6,6 @@
 	text-box: trim-both cap alphabetic;
 }
 
-.eyebrow {
+.metadataEyebrow {
 	text-transform: uppercase;
 }

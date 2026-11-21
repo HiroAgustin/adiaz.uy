@@ -1,9 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { featuredPosts, formatDate, postTransitionName } from "../lib/posts";
-import styles from "./BlogPost.module.css";
-import content from "../styles/Content.module.css";
-import metadata from "../styles/Metadata.module.css";
+import { featuredPosts, formatDate, postTransitionName } from "../lib/Articles";
+import styles from "./Post.module.css";
 
 interface Props {
 	post: CollectionEntry<"blog">;
@@ -13,10 +11,10 @@ const { post } = Astro.props;
 const featured = featuredPosts.has(post.id);
 ---
 
-<article class:list={[content.page, "mx-auto"]}>
-	<header class={content.heading}>
+<article class:list={["contentPage", "mx-auto"]}>
+	<header class={"contentHeading"}>
 		<time
-			class:list={[metadata.label, metadata.eyebrow]}
+			class:list={["metadataLabel", "metadataEyebrow"]}
 			datetime={post.data.pubDate.toISOString()}
 		>
 			{formatDate(post.data.pubDate)}
@@ -31,7 +29,7 @@ const featured = featuredPosts.has(post.id);
 		</h1>
 	</header>
 
-	<div class:list={[content.prose, styles.body]}>
+	<div class:list={["contentProse", styles.Post]}>
 		<slot />
 	</div>
 </article>

@@ -1,10 +1,10 @@
-.list {
+.Posts {
 	--post-link-inset: clamp(0.625rem, 2vw, 0.875rem);
 	margin-inline: calc(-1 * var(--post-link-inset));
 }
 
-.list:not(.plain)::before,
-.list:not(.plain) > li::after {
+.Posts:not(.featured)::before,
+.Posts:not(.featured) > li::after {
 	content: "";
 	display: block;
 	margin-inline: var(--post-link-inset);
@@ -21,7 +21,7 @@
 	padding-inline: var(--post-link-inset);
 }
 
-.plain .link {
+.featured .link {
 	padding-block: 0.625rem;
 }
 
@@ -32,34 +32,34 @@
 	line-height: 1.4;
 }
 
-.list:not(.plain) .date {
+.Posts:not(.featured) .date {
 	color: color-mix(in oklab, var(--subtle) 90%, var(--background));
 	letter-spacing: 0.015em;
 }
 
 @media (hover: hover) and (forced-colors: none) {
-	.plain {
+	.featured {
 		--post-sibling-opacity: 0.5;
 	}
 
-	.list:has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) {
+	.Posts:has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) {
 		opacity: var(--post-sibling-opacity, 0.7);
 	}
 
-	.list:not(.plain) .link:not(:focus-visible) {
+	.Posts:not(.featured) .link:not(:focus-visible) {
 		border-radius: 0.75rem;
 	}
 
-	.list:not(.plain) .link:hover {
+	.Posts:not(.featured) .link:hover {
 		background-color: color-mix(in oklab, var(--color-zinc-100) 8%, transparent);
 	}
 
-	.list:not(.plain):has(> li:first-child > .link:hover)::before,
-	.list:not(.plain) > li:has(> .link:hover, + li > .link:hover)::after {
+	.Posts:not(.featured):has(> li:first-child > .link:hover)::before,
+	.Posts:not(.featured) > li:has(> .link:hover, + li > .link:hover)::after {
 		border-block-start-color: transparent;
 	}
 
-	.list:not(.plain):has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) time {
+	.Posts:not(.featured):has(> li > .link:hover) > li > .link:not(:hover, :focus-visible) time {
 		color: var(--text);
 	}
 
@@ -68,18 +68,18 @@
 			transition: opacity 180ms ease-out;
 		}
 
-		.list:not(.plain) .link {
+		.Posts:not(.featured) .link {
 			transition:
 				opacity 180ms ease-out,
 				background-color 180ms ease-out;
 		}
 
-		.list:not(.plain) time {
+		.Posts:not(.featured) time {
 			transition: color 180ms ease-out;
 		}
 
-		.list:not(.plain)::before,
-		.list:not(.plain) > li::after {
+		.Posts:not(.featured)::before,
+		.Posts:not(.featured) > li::after {
 			transition: border-block-start-color 180ms ease-out;
 		}
 	}
@@ -94,43 +94,39 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.list > li {
+	.Posts > li {
 		view-transition-name: var(--post-transition, none);
-		view-transition-class: shared-content;
-		transition:
-			opacity var(--post-entry-duration) var(--ease-settle),
-			translate var(--post-entry-duration) var(--ease-settle);
-		transition-delay: min(var(--post-entry-delay-cap), var(--post-index) * var(--post-entry-step));
+		view-transition-class: sharedContent;
 	}
 
-	@supports (transition-delay: calc(sibling-index() * 1ms)) {
-		.list > li {
-			transition-delay: min(
-				var(--post-entry-delay-cap),
-				(sibling-index() - 1) * var(--post-entry-step)
-			);
-		}
+	.Posts[data-stagger] > li {
+		animation: postEntry 360ms ease-out backwards;
+		animation-delay: calc((sibling-index() - 1) * 90ms);
 	}
 
-	@starting-style {
-		.list > li {
-			opacity: 0;
-			translate: 0 0.4rem;
-		}
+	:root[data-posts-entry] .Posts[data-stagger] > li,
+	:root[data-posts-entry] .Posts[data-stagger] [data-transition="post-title"] {
+		view-transition-name: none;
 	}
 
-	.list > li:focus-within {
-		transition: none;
+	:root[data-posts-entry] .Posts[data-stagger] > li {
+		animation-play-state: paused;
 	}
 
-	/* Let the page transition capture the rows at their final positions. */
-	:root:active-view-transition .list > li {
-		transition: none;
+	.Posts > li:focus-within {
+		animation: none;
+	}
+}
+
+@keyframes postEntry {
+	from {
+		opacity: 0;
+		translate: -0.75rem 0;
 	}
 }
 
 @media (max-width: 31rem) {
-	.list {
+	.Posts {
 		--post-link-inset: 0.5rem;
 	}
 
@@ -144,20 +140,20 @@
 		overflow-wrap: anywhere;
 	}
 
-	.plain > li + li {
+	.featured > li + li {
 		background: linear-gradient(var(--border), var(--border)) center top /
 			calc(100% - 2 * var(--post-link-inset)) 1px no-repeat;
 	}
 
-	.plain .link {
+	.featured .link {
 		padding-block: 0.875rem;
 	}
 
-	.plain > li:first-child > .link {
+	.featured > li:first-child > .link {
 		padding-block-start: 0.25rem;
 	}
 
-	.plain > li:last-child > .link {
+	.featured > li:last-child > .link {
 		padding-block-end: 0.25rem;
 	}
 

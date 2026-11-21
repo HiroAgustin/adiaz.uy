@@ -1,9 +1,7 @@
 ---
 import type { InferGetStaticPropsType } from "astro";
-import { render } from "astro:content";
-import BlogPost from "../components/BlogPost.astro";
-import SiteLayout from "../layouts/SiteLayout.astro";
-import { getPosts } from "../lib/posts";
+import { getPosts } from "../lib/Articles";
+import Article from "../views/Article.astro";
 
 export async function getStaticPaths() {
 	const posts = await getPosts();
@@ -16,18 +14,6 @@ export async function getStaticPaths() {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props;
-const { Content } = await render(post);
 ---
 
-<SiteLayout
-	type="BlogPosting"
-	title={post.data.title}
-	description={post.data.description}
-	publishedAt={post.data.pubDate}
-	modifiedAt={post.data.updatedDate}
-	image={post.data.image}
->
-	<BlogPost post={post}>
-		<Content />
-	</BlogPost>
-</SiteLayout>
+<Article post={post} />

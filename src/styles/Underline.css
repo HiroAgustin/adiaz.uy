@@ -1,12 +1,12 @@
-.underline {
+.linkUnderline {
 	text-decoration: underline;
 	text-decoration-color: var(--subtle);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.24em;
 }
 
-.underline:is(:hover, :focus-visible),
-a:is(:hover, :focus-visible) > .underline {
+.linkUnderline:is(:hover, :focus-visible),
+a:is(:hover, :focus-visible) > .linkUnderline {
 	color: var(--link);
 	text-decoration-color: currentColor;
 	text-decoration-thickness: 2px;
@@ -14,7 +14,7 @@ a:is(:hover, :focus-visible) > .underline {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.underline {
+	.linkUnderline {
 		transition:
 			color 180ms ease-out,
 			text-decoration-color 180ms ease-out,

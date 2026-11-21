@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { featuredPosts, formatDate, postTransitionName } from "../lib/Articles";
+import styles from "./Posts.module.css";
+
+interface Props {
+	posts: CollectionEntry<"blog">[];
+	featured?: boolean;
+}
+
+const { posts, featured = false } = Astro.props;
+---
+
+<ul class:list={[styles.Posts, featured && styles.featured]} role="list" data-stagger>
+	{posts.map((post) => (
+		<li
+			style={{
+				"--post-transition": featuredPosts.has(post.id)
+					? postTransitionName(post.id, "row")
+					: undefined,
+			}}
+		>
+			<a class:list={[styles.link, "gap-x-4 gap-y-1"]} href={`/${post.id}/`}>
+				<span
+					class:list={[styles.title, "linkUnderline"]}
+					data-transition={featuredPosts.has(post.id) ? "post-title" : undefined}
+					style={{
+						"--post-title-transition": featuredPosts.has(post.id)
+							? postTransitionName(post.id, "title")
+							: undefined,
+					}}
+				>
+					{post.data.title}
+				</span>
+				<time
+					class:list={["metadataLabel", styles.date]}
+					datetime={post.data.pubDate.toISOString()}
+				>
+					{formatDate(post.data.pubDate)}
+				</time>
+				{featured && <span class={styles.summary}>{featuredPosts.get(post.id)}</span>}
+			</a>
+		</li>
+	))}
+</ul>
+
+<script>
+	window.addEventListener("pagereveal", (event) => {
+		if (!event.viewTransition) return;
+
+		document.documentElement.setAttribute("data-posts-entry", "");
+		event.viewTransition.finished.then(() => {
+			document.documentElement.removeAttribute("data-posts-entry");
+		});
+	});
+
+	window.addEventListener("pageshow", (event) => {
+		if (!event.persisted || !matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+
+		for (const posts of document.querySelectorAll<HTMLElement>("[data-stagger]")) {
+			posts.removeAttribute("data-stagger");
+			void posts.offsetWidth;
+			posts.setAttribute("data-stagger", "");
+		}
+	});
+</script>

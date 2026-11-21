@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getPosts } from "./lib/posts";
+import { getPosts } from "./lib/Articles";
 
 export const GET: APIRoute = async ({ site }) => {
 	if (!site) throw new Error("Configure the site URL before publishing to Buffer.");

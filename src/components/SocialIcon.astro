@@ -1,0 +1,155 @@
+---
+interface Props {
+	label: string;
+	color: string;
+	paths: string[];
+	drawOffsets?: number[];
+	drawStages?: number[];
+}
+
+const { label, color, paths, drawOffsets, drawStages } = Astro.props;
+const drawDuration = "0.45s";
+const drawSpline = "0.22 1 0.36 1";
+---
+
+<svg
+	aria-hidden="true"
+	viewBox="-1 -1 26 26"
+	width="20"
+	height="20"
+	stroke-width="1.6"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+>
+	{label === "GitHub" && (
+		<defs>
+			<linearGradient
+				id="footergithubgradient"
+				gradientUnits="userSpaceOnUse"
+				x1="0"
+				y1="0"
+				x2="24"
+				y2="24"
+			>
+				<stop offset="0%" stop-color="#ff3b30" />
+				<stop offset="20%" stop-color="#ff9500" />
+				<stop offset="40%" stop-color="#ffcc00" />
+				<stop offset="60%" stop-color="#34c759" />
+				<stop offset="80%" stop-color="#00aaff" />
+				<stop offset="100%" stop-color="#af52de" />
+			</linearGradient>
+		</defs>
+	)}
+	<style is:inline>
+		@media (prefers-reduced-motion: reduce) {
+			.footerSocialOutline { stroke-dashoffset: 100 !important; stroke-opacity: 0 !important; }
+			a:is(:hover, :focus) .footerSocialOutline { stroke-dashoffset: 0 !important; stroke-opacity: 1 !important; }
+			.footerSocialBase { opacity: 1 !important; }
+			a:is(:hover, :focus) .footerSocialBase { opacity: 0 !important; }
+		}
+	</style>
+	<g class="footerSocialBase">
+		<animate
+			attributeName="opacity"
+			values="1;1;0"
+			keyTimes="0;0.7;1"
+			dur={drawDuration}
+			begin={`footer${label.toLowerCase()}.mouseover`}
+			fill="freeze"
+		/>
+		<set
+			attributeName="opacity"
+			to="1"
+			dur="0.01s"
+			begin={`footer${label.toLowerCase()}.mouseout`}
+			fill="freeze"
+		/>
+		<g class="footerSocialBase">
+			<animate
+				attributeName="opacity"
+				values="1;1;0"
+				keyTimes="0;0.7;1"
+				dur={drawDuration}
+				begin={`footer${label.toLowerCase()}.focus`}
+				fill="freeze"
+			/>
+			<set
+				attributeName="opacity"
+				to="1"
+				dur="0.01s"
+				begin={`footer${label.toLowerCase()}.blur`}
+				fill="freeze"
+			/>
+			{paths.map((path) => (
+				<path d={path} fill="none" stroke="var(--text)" />
+			))}
+		</g>
+	</g>
+	{["mouse", "focus"].map((interaction) =>
+		paths.map((path, index) => {
+			const stage = drawStages?.[index] ?? paths.length - index - 1;
+			const stageCount = drawStages ? Math.max(...drawStages) + 1 : paths.length;
+			return (
+				<path
+					class="footerSocialOutline"
+					d={path}
+					fill="none"
+					stroke={color}
+					pathLength="100"
+					stroke-dasharray="100"
+					stroke-dashoffset={drawOffsets?.[index] ?? -100}
+					stroke-opacity="0"
+				>
+					<animate
+						attributeName="stroke-dashoffset"
+						to={drawOffsets ? undefined : "0"}
+						values={
+							drawOffsets
+								? Array.from({ length: stageCount + 1 }, (_, step) =>
+										step <= stage ? drawOffsets[index] : 0,
+									).join(";")
+								: undefined
+						}
+						dur={drawDuration}
+						calcMode="spline"
+						keyTimes={
+							drawOffsets
+								? Array.from({ length: stageCount + 1 }, (_, step) => step / stageCount).join(";")
+								: "0;1"
+						}
+						keySplines={drawOffsets ? Array(stageCount).fill(drawSpline).join(";") : drawSpline}
+						begin={`footer${label.toLowerCase()}.${interaction === "mouse" ? "mouseover" : "focus"}`}
+						fill="freeze"
+					/>
+					<animate
+						attributeName="stroke-dashoffset"
+						to={drawOffsets?.[index] ?? -100}
+						dur="0.2s"
+						begin={`footer${label.toLowerCase()}.${interaction === "mouse" ? "mouseout" : "blur"}`}
+						fill="freeze"
+					/>
+					<animate
+						attributeName="stroke-opacity"
+						to={drawOffsets && stage > 0 ? undefined : "1"}
+						values={drawOffsets && stage > 0 ? "0;1;1" : undefined}
+						keyTimes={drawOffsets && stage > 0 ? `0;${stage / stageCount};1` : undefined}
+						calcMode={drawOffsets && stage > 0 ? "discrete" : undefined}
+						dur={drawOffsets && stage > 0 ? drawDuration : "0.01s"}
+						begin={`footer${label.toLowerCase()}.${interaction === "mouse" ? "mouseover" : "focus"}`}
+						fill="freeze"
+					/>
+					<animate
+						attributeName="stroke-opacity"
+						to={drawOffsets ? "0" : undefined}
+						values={drawOffsets ? undefined : "1;1;0"}
+						keyTimes={drawOffsets ? undefined : "0;0.95;1"}
+						calcMode={drawOffsets ? "discrete" : undefined}
+						dur="0.2s"
+						begin={`footer${label.toLowerCase()}.${interaction === "mouse" ? "mouseout" : "blur"}`}
+						fill="freeze"
+					/>
+				</path>
+			);
+		}),
+	)}
+</svg>

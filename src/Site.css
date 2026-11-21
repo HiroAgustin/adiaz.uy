@@ -25,9 +25,6 @@
 		--ease-glide: cubic-bezier(0.45, 0, 0.15, 1);
 		--ease-settle: cubic-bezier(0.28, 0.72, 0.24, 1);
 		--ease-depart: cubic-bezier(0.5, 0, 0.8, 0.36);
-		--post-entry-duration: 700ms;
-		--post-entry-step: 110ms;
-		--post-entry-delay-cap: 550ms;
 	}
 
 	body {
@@ -58,47 +55,40 @@
 	}
 
 	@media (forced-colors: none) {
-		@supports (background-image: conic-gradient(in oklab, red, blue)) {
-			/* Replaced elements cannot draw a pseudo-element; keep their solid outline. */
-			:where(a, button, summary, main, [tabindex]):not(
-					:where(input, select, textarea, img, iframe, object, embed, audio, video, canvas, svg)
-				):focus-visible {
-				position: relative;
-				isolation: isolate;
-				outline-color: transparent;
+		/* Replaced elements cannot draw a pseudo-element; keep their solid outline. */
+		:where(a, button, summary, main, [tabindex]):not(
+				:where(input, select, textarea, img, iframe, object, embed, audio, video, canvas, svg)
+			):focus-visible {
+			position: relative;
+			isolation: isolate;
+			outline-color: transparent;
 
-				&::before {
-					--focus-rainbow: conic-gradient(
-						from var(--focus-angle, 25deg) in oklab,
-						var(--rainbow-stops)
-					);
+			&::before {
+				--focus-rainbow: conic-gradient(
+					from var(--focus-angle, 25deg) in oklab,
+					var(--rainbow-stops)
+				);
 
-					content: "";
-					position: absolute;
-					z-index: -1;
-					inset: calc(-2px - var(--focus-offset, 2px));
-					border: 2px solid transparent;
-					border-radius: calc(var(--focus-radius, 0.25rem) + var(--focus-offset, 2px) + 2px);
-					corner-shape: inherit;
-					background-image:
-						linear-gradient(var(--focus-surface, var(--background)) 0 0), var(--focus-rainbow);
-					background-origin: border-box;
-					background-clip: padding-box, border-box;
-					pointer-events: none;
+				content: "";
+				position: absolute;
+				z-index: -1;
+				inset: calc(-2px - var(--focus-offset, 2px));
+				border: 2px solid transparent;
+				border-radius: calc(var(--focus-radius, 0.25rem) + var(--focus-offset, 2px) + 2px);
+				corner-shape: inherit;
+				background-image:
+					linear-gradient(var(--focus-surface, var(--background)) 0 0), var(--focus-rainbow);
+				background-origin: border-box;
+				background-clip: padding-box, border-box;
+				pointer-events: none;
 
-					@supports (background-clip: border-area) {
-						background-image: var(--focus-rainbow);
-						background-clip: border-area;
-					}
+				@supports (background-clip: border-area) {
+					background-image: var(--focus-rainbow);
+					background-clip: border-area;
+				}
 
-					@media (prefers-reduced-motion: no-preference) {
-						--focus-angle: calc(25deg + var(--focus-turn, 1) * 1turn);
-						transition: --focus-angle 6s linear;
-
-						@starting-style {
-							--focus-angle: 25deg;
-						}
-					}
+				@media (prefers-reduced-motion: no-preference) {
+					animation: focusTurn 6s linear infinite;
 				}
 			}
 		}
@@ -140,17 +130,6 @@
 		}
 	}
 
-	.heading-outline {
-		--outline-color: color-mix(in oklab, var(--link) 55%, var(--background));
-		/* The background-colored shadow hollows out the offset lettering. */
-		text-shadow:
-			3px 3px var(--background),
-			2px 2px var(--outline-color),
-			4px 2px var(--outline-color),
-			2px 4px var(--outline-color),
-			4px 4px var(--outline-color);
-	}
-
 	::selection {
 		background-color: var(--color-orange-300);
 		color: var(--on-accent);
@@ -162,6 +141,15 @@
 	}
 }
 
+@keyframes focusTurn {
+	from {
+		--focus-angle: 25deg;
+	}
+	to {
+		--focus-angle: 385deg;
+	}
+}
+
 @media (prefers-reduced-motion: no-preference) {
 	/* The shared reset opts both documents in to native view transitions. */
 	main {
@@ -170,28 +158,26 @@
 
 	[data-transition="writings-panel"] {
 		view-transition-name: writings-panel;
-		view-transition-class: shared-content;
+		view-transition-class: sharedContent;
 	}
 
 	[data-transition="writing-title"] {
 		/* Size the snapshot to the lettering, not the full column. */
 		inline-size: fit-content;
 		view-transition-name: writing-title;
-		view-transition-class: shared-content;
+		view-transition-class: sharedContent;
 	}
 
 	[data-transition="post-title"] {
 		inline-size: fit-content;
 		view-transition-name: var(--post-title-transition);
-		view-transition-class: shared-content;
+		view-transition-class: sharedContent;
 	}
 
-	@supports (view-transition-name: first-name) {
-		[data-transition="first-name"] {
-			display: inline-block;
-			view-transition-name: first-name;
-			view-transition-class: shared-content;
-		}
+	[data-transition="first-name"] {
+		display: inline-block;
+		view-transition-name: first-name;
+		view-transition-class: sharedContent;
 	}
 
 	::view-transition-group(*) {
@@ -202,7 +188,7 @@
 		animation-duration: 260ms;
 	}
 
-	::view-transition-group(.shared-content) {
+	::view-transition-group(.sharedContent) {
 		animation-duration: 440ms;
 	}
 
@@ -212,6 +198,15 @@
 
 	::view-transition-new(page) {
 		animation: 260ms var(--ease-out) both page-in;
+	}
+
+	:root[data-posts-entry]::view-transition-group(*) {
+		animation-duration: 160ms;
+	}
+
+	:root[data-posts-entry]::view-transition-old(page),
+	:root[data-posts-entry]::view-transition-new(page) {
+		animation-duration: 160ms;
 	}
 }
 

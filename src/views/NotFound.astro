@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404: Page not found">
+	<section class:list={["contentPage", "mx-auto"]}>
+		<header class={"contentHeading"}>
+			<p class:list={["metadataLabel", "metadataEyebrow"]}>404</p>
+			<h1>Page not found.</h1>
+			<p class={"contentIntro"}>This page may have moved or the address might be wrong.</p>
+		</header>
+		<a class={"action"} href="/">
+			Back home
+		</a>
+	</section>
+</Layout>

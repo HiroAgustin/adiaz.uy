@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Posts from "../components/Posts.astro";
+import { getPosts } from "../lib/Articles";
+import styles from "./Archive.module.css";
+
+const posts = await getPosts();
+---
+
+<Layout
+	type="CollectionPage"
+	title="Writings"
+	description="Browse all articles by Agustín Díaz on web development, frontend engineering, CSS, JavaScript, and design."
+	items={posts.map((post) => ({ name: post.data.title, url: `/${post.id}/` }))}
+>
+	<div class:list={["contentPage", "mx-auto"]}>
+		<section class={styles.Archive} data-transition="writings-panel">
+			<header class={"contentHeading"}>
+				<p class:list={["metadataLabel", "metadataEyebrow"]}>The archive</p>
+				<h1 data-transition="writing-title">Writings</h1>
+				<p class={"contentIntro"}>Notes on CSS, JavaScript, and building for the web.</p>
+			</header>
+			<Posts posts={posts} />
+		</section>
+	</div>
+</Layout>

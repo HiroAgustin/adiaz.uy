@@ -1,0 +1,65 @@
+---
+import Portrait from "../components/Portrait.astro";
+import Outline from "../components/Outline.astro";
+import Layout from "../layouts/Layout.astro";
+import styles from "./About.module.css";
+---
+
+<Layout
+	title="About"
+	description="About Agustín Díaz, a design engineer working across design and frontend engineering, and the author of adiaz.uy."
+	type="AboutPage"
+>
+	<article class:list={["contentPage", "mx-auto"]}>
+		<header class:list={["contentHeading", styles.About]}>
+			<h1>
+				Hi, I’m <Outline>Agustín</Outline>
+			</h1>
+			<Portrait
+				class={styles.portrait}
+				size={224}
+				height={280}
+				alt="Agustín Díaz"
+				fetchpriority="high"
+				responsive={{
+					widths: [96, 192, 224, 448],
+					sizes: "(min-width: 42rem) 14rem, clamp(3.5rem, 22vw, 6rem)",
+				}}
+			/>
+			<div class:list={["contentProse", styles.bio]}>
+				<p class={"contentIntro"}>
+					I’ve been building on the web since 2009; currently as a Senior Design Engineer at{" "}
+					<strong>GitHub</strong>.
+				</p>
+				<p>
+					The browser is where I do my best design work. I like getting an interaction right there,
+					then giving it a home in the design system so the next person doesn’t have to start over.
+				</p>
+			</div>
+		</header>
+		<div class={"contentProse"}>
+			<p>
+				I’ve worked at startups like <strong>Personio</strong>, <strong>Frameable</strong>, and{" "}
+				<strong>Floship</strong>, and larger companies like <strong>Stripe</strong>,{" "}
+				<strong>New Relic</strong>, and <strong>NetSuite</strong>. I craft interfaces that look and
+				feel good to use.
+			</p>
+			<p>
+				Attending the{" "}
+				<a class={"linkUnderline"} href="https://www.recurse.com/">
+					Recurse Center
+				</a>{" "}
+				made me a better programmer. It’s also where I met some of the kindest people I know.
+			</p>
+			<h2>Outside work</h2>
+			<p>
+				My kid keeps me busy. When I get some time to myself, I like to read or play video and board
+				games. The Hiro in <em>HiroAgustin</em> is my gaming moniker, borrowed from{" "}
+				<a class={"linkUnderline"} href="https://en.wikipedia.org/wiki/Hiro_Nakamura">
+					Hiro Nakamura
+				</a>
+				, the space-time bending programmer samurai.
+			</p>
+		</div>
+	</article>
+</Layout>

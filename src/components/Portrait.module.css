@@ -1,4 +1,4 @@
-.frame {
+.Portrait {
 	position: relative;
 	flex: none;
 }
@@ -8,74 +8,72 @@
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-	@supports selector(:has(*)) {
-		.tiltGrid {
+	.tiltGrid {
+		position: absolute;
+		z-index: 1;
+		inset: 0;
+		display: grid;
+		grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+	}
+
+	/* Keep the 3D tilt separate from the portrait's idle rotate animation. */
+	.image {
+		transform: perspective(28rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+		transition: transform 280ms var(--ease-settle);
+	}
+
+	.Portrait:has(> .tiltGrid:hover) > .image {
+		animation-name: none;
+	}
+
+	.Portrait:has(> .tiltGrid > :nth-child(-n + 3):hover) {
+		--tilt-x: 12deg;
+		--shine-y: 90%;
+	}
+
+	.Portrait:has(> .tiltGrid > :nth-child(n + 7):hover) {
+		--tilt-x: -12deg;
+		--shine-y: 10%;
+	}
+
+	.Portrait:has(> .tiltGrid > :nth-child(3n + 1):hover) {
+		--tilt-y: -12deg;
+		--shine-x: 90%;
+	}
+
+	.Portrait:has(> .tiltGrid > :nth-child(3n):hover) {
+		--tilt-y: 12deg;
+		--shine-x: 10%;
+	}
+
+	.Portrait:has(> .tiltGrid > :nth-child(5):hover) {
+		--tilt-x: -3deg;
+	}
+
+	@media (forced-colors: none) {
+		.image::after {
+			content: "";
 			position: absolute;
-			z-index: 1;
 			inset: 0;
-			display: grid;
-			grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+			border-radius: inherit;
+			corner-shape: inherit;
+			background: radial-gradient(ellipse at center, rgb(255 246 230 / 40%), transparent 58%)
+				var(--shine-x, 50%) var(--shine-y, 50%) / 180% 180% no-repeat;
+			mix-blend-mode: screen;
+			opacity: 0;
+			pointer-events: none;
+			transition:
+				opacity 220ms ease-out,
+				background-position 280ms var(--ease-settle);
 		}
 
-		/* Keep the 3D tilt separate from the portrait's idle rotate animation. */
-		.portrait {
-			transform: perspective(28rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-			transition: transform 280ms var(--ease-settle);
-		}
-
-		.frame:has(> .tiltGrid:hover) > .portrait {
-			animation-name: none;
-		}
-
-		.frame:has(> .tiltGrid > :nth-child(-n + 3):hover) {
-			--tilt-x: 12deg;
-			--shine-y: 90%;
-		}
-
-		.frame:has(> .tiltGrid > :nth-child(n + 7):hover) {
-			--tilt-x: -12deg;
-			--shine-y: 10%;
-		}
-
-		.frame:has(> .tiltGrid > :nth-child(3n + 1):hover) {
-			--tilt-y: -12deg;
-			--shine-x: 90%;
-		}
-
-		.frame:has(> .tiltGrid > :nth-child(3n):hover) {
-			--tilt-y: 12deg;
-			--shine-x: 10%;
-		}
-
-		.frame:has(> .tiltGrid > :nth-child(5):hover) {
-			--tilt-x: -3deg;
-		}
-
-		@media (forced-colors: none) {
-			.portrait::after {
-				content: "";
-				position: absolute;
-				inset: 0;
-				border-radius: inherit;
-				corner-shape: inherit;
-				background: radial-gradient(ellipse at center, rgb(255 246 230 / 40%), transparent 58%)
-					var(--shine-x, 50%) var(--shine-y, 50%) / 180% 180% no-repeat;
-				mix-blend-mode: screen;
-				opacity: 0;
-				pointer-events: none;
-				transition:
-					opacity 220ms ease-out,
-					background-position 280ms var(--ease-settle);
-			}
-
-			.frame:has(> .tiltGrid:hover) .portrait::after {
-				opacity: 1;
-			}
+		.Portrait:has(> .tiltGrid:hover) .image::after {
+			opacity: 1;
 		}
 	}
 }
 
-.portrait {
+.image {
 	position: relative;
 	isolation: isolate;
 	inline-size: 100%;
@@ -86,7 +84,7 @@
 	transform-origin: 32% 75%;
 }
 
-.portrait > img {
+.image > img {
 	display: block;
 	inline-size: 100%;
 	border-radius: inherit;
@@ -94,27 +92,27 @@
 }
 
 @supports (corner-shape: squircle) {
-	.portrait {
+	.image {
 		border-radius: 50%;
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.portrait {
+	.image {
 		view-transition-name: portrait;
-		view-transition-class: shared-content;
+		view-transition-class: sharedContent;
 		animation: portrait-settle 5s var(--ease-glide) 2s both;
 	}
 
 	@supports (rotate: calc(random(5deg, 9deg) * (2 * round(random(0, 1), 1) - 1))) {
-		.portrait {
+		.image {
 			/* Pick the direction separately so the tilt never starts near zero. */
 			--portrait-tilt: calc(random(5deg, 9deg) * (2 * round(random(0, 1), 1) - 1));
 		}
 	}
 
 	@supports (transform-origin: random(25%, 45%) random(60%, 85%)) {
-		.portrait {
+		.image {
 			transform-origin: random(25%, 45%) random(60%, 85%);
 		}
 	}

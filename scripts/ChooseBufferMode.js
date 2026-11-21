@@ -1,6 +1,6 @@
 import { closeSync, openSync, readFileSync, readSync, writeFileSync, writeSync } from "node:fs";
 import { styleText } from "node:util";
-import { getNewPosts, git } from "./buffer-posts.js";
+import { getNewPosts, git } from "./BufferPosts.js";
 
 async function getChannels() {
 	const { BUFFER_API_KEY: token, BUFFER_ORGANIZATION_ID: organizationId } = process.env;

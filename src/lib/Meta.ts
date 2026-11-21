@@ -1,5 +1,5 @@
 import type { CollectionEntry } from "astro:content";
-import { siteMetadata } from "./site";
+import { siteMetadata } from "./Identity";
 
 export interface PageMetadata {
 	title?: string;

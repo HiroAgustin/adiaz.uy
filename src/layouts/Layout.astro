@@ -1,0 +1,32 @@
+---
+import type { PageMetadata } from "../lib/Meta";
+
+import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SkipLink from "../components/SkipLink.astro";
+
+import "../styles/Layers.css";
+import "../Site.css";
+import "../styles/Action.css";
+import "../styles/Content.css";
+import "../styles/Metadata.css";
+import "../styles/Underline.css";
+
+type Props = PageMetadata;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<Head page={Astro.props} />
+	</head>
+	<body>
+		<SkipLink />
+		<Header writingSection={Astro.props.type === "BlogPosting"} />
+		<main id="content" tabindex="-1">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

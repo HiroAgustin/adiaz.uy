@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import Post from "../components/Post.astro";
+import Layout from "../layouts/Layout.astro";
+
+interface Props {
+	post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout
+	type="BlogPosting"
+	title={post.data.title}
+	description={post.data.description}
+	publishedAt={post.data.pubDate}
+	modifiedAt={post.data.updatedDate}
+	image={post.data.image}
+>
+	<Post post={post}>
+		<Content />
+	</Post>
+</Layout>
