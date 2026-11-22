@@ -9,7 +9,7 @@ integers, removes the duplicates. This can be achieved by storing the items as w
 collection and leave out the ones that are already in our stash.
 
 ```js
-function uniq (collection = []) {
+function uniq(collection = []) {
   const stash = {}
 
   return collection.filter(item => {
@@ -32,7 +32,7 @@ A slightly different problem that can be solved with almost the same code is: Gi
 integers, of which only a single one appears an odd amount of times, return that number.
 
 ```js
-function findOdd (collection = []) {
+function findOdd(collection = []) {
   const stash = {}
 
   collection.forEach(item => {

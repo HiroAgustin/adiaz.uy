@@ -9,7 +9,7 @@ a flattened version of it. They may request different ways to handle edge cases,
 is in the lines of…
 
 ```js
-function flatten (collection = []) {
+function flatten(collection = []) {
   let result = []
 
   collection.forEach(item => {

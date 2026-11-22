@@ -11,7 +11,7 @@ assignment:
 > ‘acdegilmnoprstuw’ such that `hash(the_string)` is 956446786872726.
 
 ```js
-function hash (alphabet, s) {
+function hash(alphabet, s) {
   let h = 7
 
   for (let i = 0; i < s.length; i++)
