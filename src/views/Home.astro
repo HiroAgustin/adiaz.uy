@@ -16,9 +16,9 @@ const posts = Array.from(featuredPosts.keys(), (id) => {
 ---
 
 <Layout type="WebSite" title="Agustín Díaz — Design Engineer">
-	<div class:list={[styles.Home, "mx-auto"]}>
+	<div class:list={[styles.Home, "mx-auto grid"]}>
 		<section class:list={[styles.intro, "grid gap-6"]} aria-labelledby="intro-title">
-			<div class={styles.byline}>
+			<div class:list={[styles.byline, "grid items-center"]}>
 				<div class="min-inline-0">
 					<h1 id="intro-title">
 						<Outline>Agustín</Outline> Díaz

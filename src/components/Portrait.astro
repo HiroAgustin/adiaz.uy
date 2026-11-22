@@ -15,8 +15,8 @@ interface Props {
 const { size, height, alt, class: className, fetchpriority, responsive } = Astro.props;
 ---
 
-<div class:list={[styles.Portrait, className]}>
-	<div class={styles.image}>
+<div class:list={[styles.Portrait, className, "relative flex-none"]}>
+	<div class:list={[styles.image, "relative isolate"]}>
 		<Image
 			src={avatar}
 			alt={alt}
@@ -27,6 +27,7 @@ const { size, height, alt, class: className, fetchpriority, responsive } = Astro
 			fit="cover"
 			loading="eager"
 			fetchpriority={fetchpriority}
+			class="block"
 		/>
 	</div>
 	<div class={styles.tiltGrid} aria-hidden="true">

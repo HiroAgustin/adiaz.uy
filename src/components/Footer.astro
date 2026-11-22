@@ -43,10 +43,13 @@ const links = [
 ];
 ---
 
-<footer class={styles.Footer}>
+<footer class:list={[styles.Footer, "flex flex-wrap justify-between gap-x-8 gap-y-4"]}>
 	<div>
 		<p class:list={["metadataLabel", "metadataEyebrow"]}>Get in touch</p>
-		<a class={styles.email} href={`mailto:${siteMetadata.author.email}`}>
+		<a
+			class:list={[styles.email, "inline-block font-semibold no-underline"]}
+			href={`mailto:${siteMetadata.author.email}`}
+		>
 			{siteMetadata.author.email}
 		</a>
 	</div>

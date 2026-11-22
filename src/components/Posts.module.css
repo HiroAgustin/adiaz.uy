@@ -12,10 +12,7 @@
 }
 
 .link {
-	display: grid;
-	align-items: center;
 	color: var(--heading);
-	text-decoration: none;
 	grid-template-columns: minmax(0, 1fr) auto;
 	padding-block: 0.875rem;
 	padding-inline: var(--post-link-inset);
@@ -28,7 +25,6 @@
 .title {
 	font-family: var(--font-heading, system-ui);
 	font-size: 1.1875rem;
-	font-weight: 600;
 	line-height: 1.4;
 }
 
@@ -63,55 +59,62 @@
 		color: var(--text);
 	}
 
-	@media (prefers-reduced-motion: no-preference) {
-		.link {
-			transition: opacity 180ms ease-out;
-		}
+	.link {
+		transition: opacity 180ms ease-out;
+	}
 
-		.Posts:not(.featured) .link {
-			transition:
-				opacity 180ms ease-out,
-				background-color 180ms ease-out;
-		}
+	.Posts:not(.featured) .link {
+		transition:
+			opacity 180ms ease-out,
+			background-color 180ms ease-out;
+	}
 
-		.Posts:not(.featured) time {
-			transition: color 180ms ease-out;
-		}
+	.Posts:not(.featured) time {
+		transition: color 180ms ease-out;
+	}
 
-		.Posts:not(.featured)::before,
-		.Posts:not(.featured) > li::after {
-			transition: border-block-start-color 180ms ease-out;
-		}
+	.Posts:not(.featured)::before,
+	.Posts:not(.featured) > li::after {
+		transition: border-block-start-color 180ms ease-out;
 	}
 }
 
 .summary {
-	grid-column: 1 / -1;
 	color: var(--text);
 	font-size: 0.9375rem;
 	line-height: 1.45;
 	text-wrap: pretty;
 }
 
+.Posts > li {
+	animation: postFade 360ms ease-out backwards;
+	animation-delay: calc((sibling-index() - 1) * 90ms);
+}
+
+:root[data-posts-entry] .Posts > li {
+	animation-play-state: paused;
+}
+
+.Posts > li:focus-within {
+	animation: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
 	.Posts > li {
 		view-transition-name: var(--post-transition, none);
-		view-transition-class: sharedContent;
-		animation: postEntry 360ms ease-out backwards;
-		animation-delay: calc((sibling-index() - 1) * 90ms);
+		view-transition-class: postRow;
+		animation-name: postEntry;
 	}
 
 	:root[data-posts-entry] .Posts > li,
 	:root[data-posts-entry] .Posts [data-transition="post-title"] {
 		view-transition-name: none;
 	}
+}
 
-	:root[data-posts-entry] .Posts > li {
-		animation-play-state: paused;
-	}
-
-	.Posts > li:focus-within {
-		animation: none;
+@keyframes postFade {
+	from {
+		opacity: 0;
 	}
 }
 

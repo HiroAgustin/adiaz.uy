@@ -1,8 +1,8 @@
-@media (prefers-reduced-motion: no-preference) {
-	@view-transition {
-		navigation: auto;
-	}
+@view-transition {
+	navigation: auto;
+}
 
+@media (prefers-reduced-motion: no-preference) {
 	html {
 		interpolate-size: allow-keywords;
 

@@ -1,13 +1,7 @@
 .Header {
 	--divider-width: 1px;
 	--header-padding: 0.875rem;
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 0.5rem 1rem;
 	padding-block: var(--header-padding);
-	flex-wrap: wrap;
 	border-block-end: var(--divider-width) solid var(--border);
 	margin-block-end: 0.25rem;
 }
@@ -18,8 +12,6 @@
 	color: var(--heading);
 	font-family: var(--font-heading, system-ui);
 	font-size: 1.125rem;
-	font-weight: 700;
-	text-decoration: none;
 }
 
 .wordmark > span {
@@ -49,163 +41,5 @@
 		.wordmark:hover > span {
 			transform: rotate(20deg) scale(1.25);
 		}
-	}
-}
-
-.nav {
-	--nav-highlight: rgb(255 255 255 / 10%);
-	--nav-spacing: clamp(0rem, 0.5vw, 0.25rem);
-	position: relative;
-	isolation: isolate;
-	display: flex;
-}
-
-.nav li {
-	position: relative;
-}
-
-.nav a {
-	display: block;
-	padding: 0.625rem calc(clamp(0.5rem, 2vw, 0.875rem) + var(--nav-spacing));
-	color: var(--subtle);
-	font-size: 0.9375rem;
-	text-decoration: none;
-}
-
-.nav a:is([aria-current], :hover, :focus-visible) {
-	color: var(--heading);
-}
-
-@media (hover: hover) {
-	.nav a:hover {
-		border-radius: 0.5rem;
-		background: var(--nav-highlight);
-	}
-}
-
-.currentUnderline {
-	position: absolute;
-	inset-block-end: calc(-1 * (var(--header-padding) + var(--divider-width)));
-	inset-inline: 0.5rem;
-	border-block-end: 2px solid var(--link);
-	pointer-events: none;
-}
-
-@media (hover: hover) {
-	.nav {
-		--nav-target: --nav-home;
-		anchor-scope: --nav-home, --nav-about, --nav-writing;
-	}
-
-	.nav:has(.home > a:hover) {
-		--nav-target: --nav-home;
-	}
-
-	.nav:has(.about > a:hover) {
-		--nav-target: --nav-about;
-	}
-
-	.nav:has(.writing > a:hover) {
-		--nav-target: --nav-writing;
-	}
-
-	.home {
-		anchor-name: --nav-home;
-	}
-
-	.about {
-		anchor-name: --nav-about;
-	}
-
-	.writing {
-		anchor-name: --nav-writing;
-	}
-
-	.nav::after {
-		content: "";
-		display: none;
-		min-width: 4em;
-		position: absolute;
-		z-index: -1;
-		position-anchor: var(--nav-target);
-		inset-block: 0;
-		inset-inline-start: calc(anchor(start) + var(--nav-spacing));
-		inset-inline-end: calc(anchor(end) + var(--nav-spacing));
-		border-radius: 0.5rem;
-		background: var(--nav-highlight);
-		pointer-events: none;
-		opacity: 0;
-	}
-
-	.nav:has(a:hover)::after {
-		display: block;
-		opacity: 1;
-	}
-
-	@supports (position-anchor: --nav-home) {
-		.nav:has(a:hover) a:hover {
-			background: transparent;
-		}
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		.nav {
-			transition: --nav-target 0s 280ms allow-discrete;
-		}
-
-		.nav:has(a:hover) {
-			transition: none;
-		}
-
-		.nav::after {
-			transition:
-				inset-inline-start 320ms var(--ease-glide),
-				inset-inline-end 380ms var(--ease-out),
-				opacity 280ms ease-out,
-				display 280ms allow-discrete;
-		}
-
-		@starting-style {
-			.nav:has(a:hover)::after {
-				opacity: 0;
-			}
-		}
-
-		@supports (corner-shape: squircle) {
-			.nav a:hover,
-			.nav::after {
-				border-radius: 50%;
-				corner-shape: squircle;
-			}
-		}
-	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	.currentUnderline {
-		view-transition-name: nav-current-underline;
-		view-transition-class: sharedContent;
-	}
-
-	:root::view-transition-group(nav-current-underline) {
-		animation-duration: 520ms;
-		animation-timing-function: cubic-bezier(0.22, 0.8, 0.32, 1.2);
-		animation-timing-function: linear(
-			0,
-			0.12 10%,
-			0.38 20%,
-			0.71 32%,
-			0.96 44%,
-			1.08 57%,
-			1.06 66%,
-			1.01 79%,
-			0.99 89%,
-			1
-		);
-	}
-
-	::view-transition-old(nav-current-underline),
-	::view-transition-new(nav-current-underline) {
-		block-size: 100%;
 	}
 }

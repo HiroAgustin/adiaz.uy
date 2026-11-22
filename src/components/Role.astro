@@ -6,8 +6,11 @@ const roles = ["Design", "Frontend", "Product", "Full-Stack"];
 
 <p class={styles.Role}>
 	<span class="sr-only">Design Engineer</span>
-	<span class={styles.label} aria-hidden="true">
-		<span class={styles.reel}>
+	<span
+		class:list={[styles.label, "relative isolate inline-flex items-baseline font-bold"]}
+		aria-hidden="true"
+	>
+		<span class:list={[styles.reel, "inline-grid overflow-clip justify-items-end"]}>
 			{roles.map((role) => (
 				<span>{role}</span>
 			))}

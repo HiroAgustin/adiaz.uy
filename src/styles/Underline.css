@@ -3,6 +3,9 @@
 	text-decoration-color: var(--subtle);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.24em;
+	transition:
+		color 180ms ease-out,
+		text-decoration-color 180ms ease-out;
 }
 
 .linkUnderline:is(:hover, :focus-visible),

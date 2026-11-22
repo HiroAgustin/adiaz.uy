@@ -20,9 +20,12 @@ const { posts, featured = false } = Astro.props;
 					: undefined,
 			}}
 		>
-			<a class:list={[styles.link, "gap-x-4 gap-y-1"]} href={`/${post.id}/`}>
+			<a
+				class:list={[styles.link, "grid items-center gap-x-4 gap-y-1 no-underline"]}
+				href={`/${post.id}/`}
+			>
 				<span
-					class:list={[styles.title, "linkUnderline"]}
+					class:list={[styles.title, "linkUnderline font-semibold"]}
 					data-transition={featuredPosts.has(post.id) ? "post-title" : undefined}
 					style={{
 						"--post-title-transition": featuredPosts.has(post.id)
@@ -38,7 +41,9 @@ const { posts, featured = false } = Astro.props;
 				>
 					{formatDate(post.data.pubDate)}
 				</time>
-				{featured && <span class={styles.summary}>{featuredPosts.get(post.id)}</span>}
+				{featured && (
+					<span class:list={[styles.summary, "col-span-full"]}>{featuredPosts.get(post.id)}</span>
+				)}
 			</a>
 		</li>
 	))}
@@ -57,7 +62,7 @@ const { posts, featured = false } = Astro.props;
 	});
 
 	window.addEventListener("pageshow", (event) => {
-		if (!event.persisted || !matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+		if (!event.persisted) return;
 
 		const rows = document.querySelectorAll<HTMLElement>(`.${styles.Posts} > li`);
 		for (const row of rows) row.style.animationName = "none";

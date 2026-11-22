@@ -159,26 +159,23 @@
 
 		[data-transition="writings-panel"] {
 			view-transition-name: writings-panel;
-			view-transition-class: sharedContent;
 		}
 
 		[data-transition="writing-title"] {
 			/* Size the snapshot to the lettering, not the full column. */
 			inline-size: fit-content;
 			view-transition-name: writing-title;
-			view-transition-class: sharedContent;
 		}
 
 		[data-transition="post-title"] {
 			inline-size: fit-content;
 			view-transition-name: var(--post-title-transition);
-			view-transition-class: sharedContent;
+			view-transition-class: postTitle;
 		}
 
 		[data-transition="first-name"] {
 			display: inline-block;
 			view-transition-name: first-name;
-			view-transition-class: sharedContent;
 		}
 
 		::view-transition-group(*) {
@@ -189,7 +186,12 @@
 			animation-duration: 260ms;
 		}
 
-		::view-transition-group(.sharedContent) {
+		::view-transition-group(writings-panel),
+		::view-transition-group(writing-title),
+		::view-transition-group(first-name),
+		::view-transition-group(portrait),
+		::view-transition-group(.postTitle),
+		::view-transition-group(.postRow) {
 			animation-duration: 440ms;
 		}
 

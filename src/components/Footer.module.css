@@ -1,20 +1,13 @@
 .Footer {
-	display: flex;
-	justify-content: space-between;
 	align-items: end;
-	flex-wrap: wrap;
-	gap: 1rem 2rem;
 	padding-block: 3rem 2rem;
 	border-block-start: 1px solid var(--border);
 }
 
 .email {
-	display: inline-block;
 	color: var(--heading);
 	font-family: var(--font-heading, system-ui);
 	font-size: clamp(1.4rem, 4vw, 2rem);
-	font-weight: 600;
-	text-decoration: none;
 }
 
 @media (hover: hover) {
@@ -54,9 +47,4 @@
 
 .socialLink {
 	gap: 0.35rem;
-}
-
-.socialLink svg {
-	flex: none;
-	pointer-events: none;
 }

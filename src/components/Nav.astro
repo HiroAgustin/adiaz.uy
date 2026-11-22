@@ -1,0 +1,38 @@
+---
+import styles from "./Nav.module.css";
+
+interface Props {
+	writingSection: boolean;
+}
+
+const links = [
+	{ href: "/", title: "Home", key: "home" },
+	{ href: "/about/", title: "About", key: "about" },
+	{ href: "/archive/", title: "Writings", key: "writing" },
+] as const;
+const path = Astro.url.pathname;
+const writingSection = Astro.props.writingSection;
+---
+
+<nav aria-label="Primary">
+	<ul class:list={[styles.Nav, "relative isolate flex"]} role="list">
+		{links.map(({ href, title, key }) => {
+			const current =
+				path === href ? "page" : key === "writing" && writingSection ? "true" : undefined;
+
+			return (
+				<li class:list={[styles[key], "relative"]}>
+					<a class="block no-underline" href={href} aria-current={current}>
+						{title}
+					</a>
+					{current && (
+						<span
+							class:list={[styles.currentUnderline, "absolute pointer-events-none"]}
+							aria-hidden="true"
+						/>
+					)}
+				</li>
+			);
+		})}
+	</ul>
+</nav>

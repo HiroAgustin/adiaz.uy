@@ -13,6 +13,7 @@ const drawSpline = "0.22 1 0.36 1";
 ---
 
 <svg
+	class="pointer-events-none flex-none"
 	aria-hidden="true"
 	viewBox="-1 -1 26 26"
 	width="20"
@@ -42,10 +43,8 @@ const drawSpline = "0.22 1 0.36 1";
 	)}
 	<style is:inline>
 		@media (prefers-reduced-motion: reduce) {
-			.footerSocialOutline { stroke-dashoffset: 100 !important; stroke-opacity: 0 !important; }
-			a:is(:hover, :focus) .footerSocialOutline { stroke-dashoffset: 0 !important; stroke-opacity: 1 !important; }
-			.footerSocialBase { opacity: 1 !important; }
-			a:is(:hover, :focus) .footerSocialBase { opacity: 0 !important; }
+			.footerSocialOutline { stroke-dashoffset: 100 !important; }
+			a:is(:hover, :focus) .footerSocialOutline { stroke-dashoffset: 0 !important; }
 		}
 	</style>
 	<g class="footerSocialBase">

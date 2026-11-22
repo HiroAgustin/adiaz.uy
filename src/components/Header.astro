@@ -1,43 +1,27 @@
 ---
 import { siteMetadata } from "../lib/Identity";
+import Nav from "./Nav.astro";
 import styles from "./Header.module.css";
 
 interface Props {
 	writingSection: boolean;
 }
 
-const links = [
-	{ href: "/", title: "Home", key: "home" },
-	{ href: "/about/", title: "About", key: "about" },
-	{ href: "/archive/", title: "Writings", key: "writing" },
-] as const;
-const path = Astro.url.pathname;
 const writingSection = Astro.props.writingSection;
 ---
 
-<header class={styles.Header}>
+<header
+	class:list={[
+		styles.Header,
+		"relative flex flex-wrap items-center justify-between gap-x-4 gap-y-2",
+	]}
+>
 	<a
-		class:list={[styles.wordmark, "inline-flex items-center"]}
+		class:list={[styles.wordmark, "inline-flex items-center font-bold no-underline"]}
 		href="/"
 		aria-label={`${siteMetadata.title} home`}
 	>
 		<span aria-hidden="true">⊹</span> {siteMetadata.title}
 	</a>
-	<nav aria-label="Primary">
-		<ul class={styles.nav} role="list">
-			{links.map(({ href, title, key }) => {
-				const current =
-					path === href ? "page" : key === "writing" && writingSection ? "true" : undefined;
-
-				return (
-					<li class={styles[key]}>
-						<a href={href} aria-current={current}>
-							{title}
-						</a>
-						{current && <span class={styles.currentUnderline} aria-hidden="true" />}
-					</li>
-				);
-			})}
-		</ul>
-	</nav>
+	<Nav writingSection={writingSection} />
 </header>
