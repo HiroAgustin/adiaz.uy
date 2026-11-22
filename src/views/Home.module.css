@@ -25,14 +25,10 @@
 .byline {
 	--name-size: clamp(2.25rem, 1.375rem + 3vw, 3.75rem);
 	--name-leading: 1.05;
-	--location-size: 0.9375rem;
-	--location-leading: 1.65;
-	--location-gap: 0.25rem;
 	display: grid;
 	grid-template-columns: fit-content(58%) minmax(0, 1fr);
 	align-items: center;
 	gap: 0.75rem clamp(1rem, 4vw, 3rem);
-	margin-block-end: 0.875rem;
 }
 
 .byline h1 {
@@ -59,115 +55,6 @@
 	mask-image: radial-gradient(ellipse at 38% 36%, black 25%, transparent 72%);
 	opacity: 0.38;
 	pointer-events: none;
-}
-
-.location {
-	margin-block-start: var(--location-gap);
-	color: var(--subtle);
-	font-size: var(--location-size);
-	line-height: var(--location-leading);
-}
-
-.role {
-	display: inline-flex;
-	align-items: baseline;
-	gap: 0.25em;
-	position: relative;
-	isolation: isolate;
-	padding: 0.16em 0.7em;
-	color: var(--on-accent);
-	font-size: clamp(1.125rem, 0.95rem + 0.65vw, 1.5rem);
-	font-weight: 700;
-	text-shadow: 0 1px color-mix(in oklab, var(--color-white) 50%, transparent);
-}
-
-.roleReel {
-	display: inline-grid;
-	overflow: clip;
-	justify-items: end;
-}
-
-.roleReel > span {
-	grid-area: 1 / 1;
-}
-
-.roleReel > :not(:first-child) {
-	opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	.roleReel > span {
-		animation:
-			role-roll 9s var(--ease-glide) var(--role-delay) infinite,
-			role-fade 9s linear var(--role-delay) infinite;
-	}
-
-	.roleReel > :first-child {
-		--role-delay: -0.5s;
-	}
-
-	.roleReel > :nth-child(2) {
-		--role-delay: 2.5s;
-	}
-
-	.roleReel > :nth-child(3) {
-		--role-delay: 5.5s;
-	}
-}
-
-@keyframes role-roll {
-	from,
-	to {
-		translate: 0 -100%;
-	}
-
-	5.5556%,
-	32% {
-		translate: 0 0;
-	}
-
-	/* The outgoing slide starts as the next word begins its entrance. */
-	33.3333% {
-		translate: 0 -8%;
-	}
-
-	38.8889% {
-		translate: 0 100%;
-	}
-}
-
-@keyframes role-fade {
-	/* Reveal the incoming word only after the outgoing word has faded. */
-	from,
-	2.8%,
-	36.1%,
-	to {
-		opacity: 0;
-	}
-
-	5.5556%,
-	33.3333% {
-		opacity: 1;
-	}
-}
-
-.role::before {
-	content: "";
-	position: absolute;
-	z-index: -1;
-	inset: 0;
-	background: var(--link);
-	mask: url("../assets/CurvedStreakLg.svg") center / 100% 100% no-repeat;
-}
-
-@media (forced-colors: active) {
-	.role {
-		color: CanvasText;
-	}
-
-	.role::before {
-		display: none;
-	}
 }
 
 .writings {

@@ -3,7 +3,6 @@
 	/* The background-colored shadow hollows out the offset lettering. */
 	text-shadow:
 		3px 3px var(--background),
-		2px 2px var(--outline-color),
 		4px 2px var(--outline-color),
 		2px 4px var(--outline-color),
 		4px 4px var(--outline-color);

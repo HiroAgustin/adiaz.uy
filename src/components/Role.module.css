@@ -1,0 +1,85 @@
+@property --role-progress {
+	syntax: "<number>";
+	inherits: false;
+	initial-value: 0;
+}
+
+.Role {
+	margin-block-start: 0.25rem;
+	color: var(--subtle);
+	font-size: 0.9375rem;
+	line-height: 1.65;
+}
+
+.label {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.5ex;
+	position: relative;
+	isolation: isolate;
+	padding: 0.55em 2em 0.45em;
+	color: var(--on-accent);
+	font-size: clamp(1.125rem, 0.95rem + 0.65vw, 1.5rem);
+	font-weight: 700;
+}
+
+.reel {
+	display: inline-grid;
+	overflow: clip;
+	justify-items: end;
+}
+
+.reel > span {
+	grid-area: 1 / 1;
+}
+
+.reel > :not(:first-child) {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.reel > span:not(:only-child) {
+		--role-count: sibling-count();
+		--role-index: sibling-index();
+		/* Each word gets 3s, with a 0.5s slide and a 0.25s fade. */
+		--role-enter: clamp(0, calc(var(--role-progress) * 6), 1);
+		--role-exit: clamp(0, calc((var(--role-progress) - 1) * 6), 1);
+		/* Cosine eases each slide while progress advances linearly. */
+		translate: 0 calc(-50% * (cos(var(--role-enter) * 180deg) + cos(var(--role-exit) * 180deg)));
+		opacity: min(
+			clamp(0, calc(var(--role-progress) * 12 - 1), 1),
+			clamp(0, calc((1 - var(--role-progress)) * 12 + 1), 1)
+		);
+		animation: role-progress calc(var(--role-count) * 3s) linear
+			calc((var(--role-index) - 1) * 3s - 0.5s) infinite;
+	}
+}
+
+@keyframes role-progress {
+	from {
+		--role-progress: 0;
+	}
+
+	to {
+		--role-progress: var(--role-count);
+	}
+}
+
+.label::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background: var(--link);
+	mask: url("../assets/CurvedStreakLg.svg") center / 100% 100% no-repeat;
+}
+
+@media (forced-colors: active) {
+	.label {
+		color: CanvasText;
+	}
+
+	.label::before {
+		display: none;
+	}
+}

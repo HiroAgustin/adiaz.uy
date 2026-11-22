@@ -97,19 +97,16 @@
 	.Posts > li {
 		view-transition-name: var(--post-transition, none);
 		view-transition-class: sharedContent;
-	}
-
-	.Posts[data-stagger] > li {
 		animation: postEntry 360ms ease-out backwards;
 		animation-delay: calc((sibling-index() - 1) * 90ms);
 	}
 
-	:root[data-posts-entry] .Posts[data-stagger] > li,
-	:root[data-posts-entry] .Posts[data-stagger] [data-transition="post-title"] {
+	:root[data-posts-entry] .Posts > li,
+	:root[data-posts-entry] .Posts [data-transition="post-title"] {
 		view-transition-name: none;
 	}
 
-	:root[data-posts-entry] .Posts[data-stagger] > li {
+	:root[data-posts-entry] .Posts > li {
 		animation-play-state: paused;
 	}
 

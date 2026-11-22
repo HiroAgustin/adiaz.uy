@@ -62,6 +62,43 @@ export default defineConfig({
 	},
 
 	vite: {
+		css: {
+			postcss: {
+				plugins: [
+					{
+						postcssPlugin: "layer-css-modules",
+						OnceExit(root, { atRule, list, result }) {
+							if (!/\.module\.css(?:\?|$)/.test(result.opts.from ?? "")) return;
+
+							const prelude = [];
+							root.each((rule) => {
+								if (rule.type !== "atrule") return;
+								if (/^(charset|namespace)$/i.test(rule.name)) {
+									prelude.push(rule.remove());
+								} else if (/^import$/i.test(rule.name)) {
+									const [url, ...conditions] = list.space(rule.params);
+									const importedLayer = conditions[0]?.match(/^layer(?:\((.*)\))?$/i);
+									if (importedLayer && !importedLayer[1]) {
+										throw rule.error("Anonymous import layers are not supported in CSS modules.");
+									}
+									if (importedLayer) {
+										conditions[0] = `layer(components.${importedLayer[1]})`;
+									} else {
+										conditions.unshift("layer(components)");
+									}
+									rule.params = [url, ...conditions].join(" ");
+									prelude.push(rule.remove());
+								}
+							});
+
+							const layer = atRule({ name: "layer", params: "components" });
+							layer.append(...root.nodes);
+							root.append(...prelude, layer);
+						},
+					},
+				],
+			},
+		},
 		plugins: [tailwindcss()],
 	},
 });

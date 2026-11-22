@@ -124,6 +124,7 @@
 	.nav::after {
 		content: "";
 		display: none;
+		min-width: 4em;
 		position: absolute;
 		z-index: -1;
 		position-anchor: var(--nav-target);

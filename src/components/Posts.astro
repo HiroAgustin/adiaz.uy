@@ -11,7 +11,7 @@ interface Props {
 const { posts, featured = false } = Astro.props;
 ---
 
-<ul class:list={[styles.Posts, featured && styles.featured]} role="list" data-stagger>
+<ul class:list={[styles.Posts, featured && styles.featured]} role="list">
 	{posts.map((post) => (
 		<li
 			style={{
@@ -45,6 +45,8 @@ const { posts, featured = false } = Astro.props;
 </ul>
 
 <script>
+	import styles from "./Posts.module.css";
+
 	window.addEventListener("pagereveal", (event) => {
 		if (!event.viewTransition) return;
 
@@ -57,10 +59,10 @@ const { posts, featured = false } = Astro.props;
 	window.addEventListener("pageshow", (event) => {
 		if (!event.persisted || !matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
 
-		for (const posts of document.querySelectorAll<HTMLElement>("[data-stagger]")) {
-			posts.removeAttribute("data-stagger");
-			void posts.offsetWidth;
-			posts.setAttribute("data-stagger", "");
-		}
+		const rows = document.querySelectorAll<HTMLElement>(`.${styles.Posts} > li`);
+		for (const row of rows) row.style.animationName = "none";
+		// Flush the cleared animations before restarting them.
+		void document.documentElement.offsetWidth;
+		for (const row of rows) row.style.removeProperty("animation-name");
 	});
 </script>
