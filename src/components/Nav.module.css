@@ -1,22 +1,98 @@
 .Nav {
 	--nav-highlight: rgb(255 255 255 / 10%);
 	--nav-spacing: clamp(0rem, 0.5vw, 0.25rem);
+
+	a {
+		padding: 0.625rem calc(clamp(0.5rem, 2vw, 0.875rem) + var(--nav-spacing));
+		color: var(--subtle);
+		font-size: 0.9375rem;
+
+		&:is([aria-current], :hover, :focus-visible) {
+			color: var(--heading);
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				border-radius: 0.5rem;
+				background: var(--nav-highlight);
+			}
+		}
+	}
+
+	@media (hover: hover) {
+		anchor-scope: --nav-home, --nav-about, --nav-writing;
+
+		&:has(.home > a:hover)::after {
+			--nav-target: --nav-home;
+		}
+
+		&:has(.about > a:hover)::after {
+			--nav-target: --nav-about;
+		}
+
+		&:has(.writing > a:hover)::after {
+			--nav-target: --nav-writing;
+		}
+
+		&::after {
+			--nav-target: --nav-home;
+			--nav-delay: 280ms;
+			content: "";
+			display: none;
+			min-width: 4em;
+			position: absolute;
+			z-index: -1;
+			inset-block: 0;
+			inset-inline-start: calc(anchor(var(--nav-target) start) + var(--nav-spacing));
+			inset-inline-end: calc(anchor(var(--nav-target) end) + var(--nav-spacing));
+			border-radius: 0.5rem;
+			background: var(--nav-highlight);
+			pointer-events: none;
+			opacity: 0;
+			transition:
+				inset-inline-start 0s var(--nav-delay),
+				inset-inline-end 0s var(--nav-delay),
+				opacity 280ms ease-out,
+				display 280ms;
+			transition-behavior: allow-discrete;
+
+			@media (prefers-reduced-motion: no-preference) {
+				transition:
+					inset-inline-start 320ms var(--ease-glide) var(--nav-delay),
+					inset-inline-end 380ms var(--ease-out) var(--nav-delay),
+					opacity 280ms ease-out,
+					display 280ms;
+				transition-behavior: allow-discrete;
+			}
+		}
+
+		&:has(a:hover) {
+			&::after {
+				--nav-delay: 0s;
+				display: block;
+				opacity: 1;
+			}
+
+			@supports (inset-inline-start: anchor(--nav-home start)) {
+				a:hover {
+					background: transparent;
+				}
+			}
+		}
+
+		@supports (corner-shape: squircle) {
+			a:hover,
+			&::after {
+				border-radius: 50%;
+				corner-shape: squircle;
+			}
+		}
+	}
 }
 
-.Nav a {
-	padding: 0.625rem calc(clamp(0.5rem, 2vw, 0.875rem) + var(--nav-spacing));
-	color: var(--subtle);
-	font-size: 0.9375rem;
-}
-
-.Nav a:is([aria-current], :hover, :focus-visible) {
-	color: var(--heading);
-}
-
-@media (hover: hover) {
-	.Nav a:hover {
-		border-radius: 0.5rem;
-		background: var(--nav-highlight);
+@starting-style {
+	.Nav:has(a:hover)::after {
+		opacity: 0;
 	}
 }
 
@@ -27,28 +103,6 @@
 }
 
 @media (hover: hover) {
-	.Nav {
-		--nav-target: --nav-home;
-		anchor-scope: --nav-home, --nav-about, --nav-writing;
-		transition: --nav-target 0s 280ms allow-discrete;
-	}
-
-	.Nav:has(a:hover) {
-		transition: none;
-	}
-
-	.Nav:has(.home > a:hover) {
-		--nav-target: --nav-home;
-	}
-
-	.Nav:has(.about > a:hover) {
-		--nav-target: --nav-about;
-	}
-
-	.Nav:has(.writing > a:hover) {
-		--nav-target: --nav-writing;
-	}
-
 	.home {
 		anchor-name: --nav-home;
 	}
@@ -59,60 +113,6 @@
 
 	.writing {
 		anchor-name: --nav-writing;
-	}
-
-	.Nav::after {
-		content: "";
-		display: none;
-		min-width: 4em;
-		position: absolute;
-		z-index: -1;
-		position-anchor: var(--nav-target);
-		inset-block: 0;
-		inset-inline-start: calc(anchor(start) + var(--nav-spacing));
-		inset-inline-end: calc(anchor(end) + var(--nav-spacing));
-		border-radius: 0.5rem;
-		background: var(--nav-highlight);
-		pointer-events: none;
-		opacity: 0;
-		transition:
-			opacity 280ms ease-out,
-			display 280ms allow-discrete;
-	}
-
-	.Nav:has(a:hover)::after {
-		display: block;
-		opacity: 1;
-	}
-
-	@supports (position-anchor: --nav-home) {
-		.Nav:has(a:hover) a:hover {
-			background: transparent;
-		}
-	}
-
-	@starting-style {
-		.Nav:has(a:hover)::after {
-			opacity: 0;
-		}
-	}
-
-	@supports (corner-shape: squircle) {
-		.Nav a:hover,
-		.Nav::after {
-			border-radius: 50%;
-			corner-shape: squircle;
-		}
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		.Nav::after {
-			transition:
-				inset-inline-start 320ms var(--ease-glide),
-				inset-inline-end 380ms var(--ease-out),
-				opacity 280ms ease-out,
-				display 280ms allow-discrete;
-		}
 	}
 }
 

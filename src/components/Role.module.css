@@ -51,7 +51,7 @@
 	}
 
 	to {
-		--role-progress: var(--role-count);
+		--role-progress: sibling-count();
 	}
 }
 
