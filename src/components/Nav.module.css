@@ -96,12 +96,6 @@
 	}
 }
 
-.currentUnderline {
-	inset-block-end: calc(-1 * (var(--header-padding) + var(--divider-width)));
-	inset-inline: 0.5rem;
-	border-block-end: 2px solid var(--link);
-}
-
 @media (hover: hover) {
 	.home {
 		anchor-name: --nav-home;
@@ -116,30 +110,30 @@
 	}
 }
 
-@media (prefers-reduced-motion: no-preference) {
-	.currentUnderline {
-		view-transition-name: nav-current-underline;
-	}
+.Underline {
+	border-block-end: 2px solid var(--link);
+	inset-block-end: calc(-1 * (var(--header-padding) + var(--divider-width)));
+	inset-inline: 0.5rem;
+	view-transition-name: underline;
+}
 
-	:root::view-transition-group(nav-current-underline) {
-		animation-duration: 520ms;
-		animation-timing-function: cubic-bezier(0.22, 0.8, 0.32, 1.2);
-		animation-timing-function: linear(
-			0,
-			0.12 10%,
-			0.38 20%,
-			0.71 32%,
-			0.96 44%,
-			1.08 57%,
-			1.06 66%,
-			1.01 79%,
-			0.99 89%,
-			1
-		);
-	}
+:root::view-transition-group(underline) {
+	animation-duration: 520ms;
+	animation-timing-function: linear(
+		0,
+		0.12 10%,
+		0.38 20%,
+		0.71 32%,
+		0.96 44%,
+		1.08 57%,
+		1.06 66%,
+		1.01 79%,
+		0.99 89%,
+		1
+	);
+}
 
-	::view-transition-old(nav-current-underline),
-	::view-transition-new(nav-current-underline) {
-		block-size: 100%;
-	}
+::view-transition-old(underline),
+::view-transition-new(underline) {
+	block-size: 100%;
 }
